@@ -69,7 +69,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
 
     return unsubscribe;
-  }, [currentUser]);
+  }, []);
 
   useEffect(() => {
     if (!currentUser) return;
@@ -92,8 +92,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [currentUser]);
 
   const loginWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.error("Login failed", error);
+      alert("Login failed. Please try again.");
+    }
   };
 
   const logout = async () => {
@@ -103,13 +108,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       await signOut(auth);
     } catch (error) {
+      console.error("Logout failed", error);
       handleFirestoreError(error, OperationType.UPDATE, `users/${currentUser?.uid}`);
     }
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      </div>
+    );
+  }
+
   return (
     <AuthContext.Provider value={{ currentUser, userProfile, loading, loginWithGoogle, logout }}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 };
