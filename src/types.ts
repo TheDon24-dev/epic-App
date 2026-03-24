@@ -26,6 +26,7 @@ export interface Store {
   name: string;
   description: string;
   category: string;
+  location?: string;
   status: 'pending' | 'approved' | 'suspended';
   logoUrl?: string;
   bannerUrl?: string;

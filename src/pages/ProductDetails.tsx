@@ -5,7 +5,7 @@ import { db } from '../firebase';
 import { Product, Store, Review, Wishlist } from '../types';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
-import { Star, MessageCircle, ShoppingCart, Heart } from 'lucide-react';
+import { Star, MessageCircle, ShoppingCart, Heart, MapPin } from 'lucide-react';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 
 export const ProductDetails = () => {
@@ -182,8 +182,8 @@ export const ProductDetails = () => {
                 </div>
               )}
 
-              <div className="mt-2 flex items-center justify-between">
-                <div className="flex items-center space-x-2">
+              <div className="mt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   {store?.logoUrl ? (
                     <img src={store.logoUrl} alt={store.name} className="w-6 h-6 rounded-full object-cover border border-gray-200" />
                   ) : (
@@ -194,7 +194,16 @@ export const ProductDetails = () => {
                   <Link to={`/stores/${store?.id}`} className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
                     {store?.name || 'Unknown Store'}
                   </Link>
-                  <span className="mx-2 text-gray-300">&bull;</span>
+                  {store?.location && (
+                    <>
+                      <span className="text-gray-300">&bull;</span>
+                      <div className="flex items-center text-sm text-gray-500">
+                        <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
+                        {store.location}
+                      </div>
+                    </>
+                  )}
+                  <span className="text-gray-300">&bull;</span>
                   <span className="text-sm text-gray-500">{product.category}</span>
                 </div>
                 {currentUser && (

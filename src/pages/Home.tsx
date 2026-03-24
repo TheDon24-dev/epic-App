@@ -3,7 +3,7 @@ import { collection, query, getDocs, onSnapshot, where, orderBy } from 'firebase
 import { db } from '../firebase';
 import { Product, Store, Banner } from '../types';
 import { Link } from 'react-router-dom';
-import { Search, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Filter, ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 
@@ -210,7 +210,15 @@ export const Home = () => {
                       <span className="text-xs text-indigo-600 font-bold">{stores[product.storeId]?.name?.charAt(0) || '?'}</span>
                     </div>
                   )}
-                  <p className="text-sm text-gray-500">{stores[product.storeId]?.name || 'Unknown Store'}</p>
+                  <div className="flex flex-col">
+                    <p className="text-sm text-gray-500 line-clamp-1">{stores[product.storeId]?.name || 'Unknown Store'}</p>
+                    {stores[product.storeId]?.location && (
+                      <div className="flex items-center text-xs text-gray-400 mt-0.5">
+                        <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
+                        <span className="line-clamp-1">{stores[product.storeId].location}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <p className="text-sm text-gray-600 mt-2 line-clamp-2 flex-1">{product.description}</p>
                 

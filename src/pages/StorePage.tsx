@@ -5,7 +5,7 @@ import { db } from '../firebase';
 import { Store, Product, Follow } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
-import { Store as StoreIcon, ShoppingCart, Users, MessageCircle } from 'lucide-react';
+import { Store as StoreIcon, ShoppingCart, Users, MessageCircle, MapPin, Share2 } from 'lucide-react';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 
 export default function StorePage() {
@@ -108,13 +108,31 @@ export default function StorePage() {
             <div className="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left">
               <h1 className="text-3xl font-bold text-gray-900">{store.name}</h1>
               <p className="text-sm font-medium text-gray-500 mt-1">{store.description}</p>
-              <div className="mt-2 flex items-center justify-center sm:justify-start text-sm text-gray-500">
-                <Users className="h-4 w-4 mr-1" />
-                {followerCount} {followerCount === 1 ? 'Follower' : 'Followers'}
+              <div className="mt-2 flex flex-wrap items-center justify-center sm:justify-start text-sm text-gray-500 gap-4">
+                <span className="flex items-center">
+                  <Users className="h-4 w-4 mr-1" />
+                  {followerCount} {followerCount === 1 ? 'Follower' : 'Followers'}
+                </span>
+                {store.location && (
+                  <span className="flex items-center">
+                    <MapPin className="h-4 w-4 mr-1" />
+                    {store.location}
+                  </span>
+                )}
               </div>
             </div>
           </div>
           <div className="mt-6 sm:mt-0 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+            <button
+              onClick={() => {
+                const url = window.location.href;
+                navigator.clipboard.writeText(url);
+                alert('Store link copied to clipboard!');
+              }}
+              className="px-6 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 font-medium flex items-center justify-center"
+            >
+              <Share2 className="h-4 w-4 mr-2" /> Share
+            </button>
             {currentUser && currentUser.uid !== store.vendorId && (
               <>
                 <button

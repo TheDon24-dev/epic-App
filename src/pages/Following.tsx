@@ -4,7 +4,7 @@ import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { Store, Follow } from '../types';
 import { Link } from 'react-router-dom';
-import { Store as StoreIcon, Users } from 'lucide-react';
+import { Store as StoreIcon, Users, MapPin } from 'lucide-react';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 
 export default function Following() {
@@ -88,9 +88,15 @@ export default function Following() {
                     <StoreIcon className="h-8 w-8 text-indigo-600" />
                   </div>
                 )}
-                <div className="ml-4">
-                  <h3 className="text-xl font-semibold text-gray-900">{store.name}</h3>
+                <div className="ml-4 flex-1 min-w-0">
+                  <h3 className="text-xl font-semibold text-gray-900 truncate">{store.name}</h3>
                   <p className="text-sm text-gray-500 truncate">{store.description}</p>
+                  {store.location && (
+                    <div className="flex items-center mt-1 text-xs text-gray-500">
+                      <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
+                      <span className="truncate">{store.location}</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </Link>

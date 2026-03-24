@@ -144,6 +144,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         message = "Login popup was closed. Please try again.";
       } else if (error.code === 'auth/network-request-failed') {
         message = "Network error. Please check your connection.";
+      } else if (error.code === 'auth/unauthorized-domain') {
+        message = `This domain (${window.location.hostname}) is not authorized in the Firebase Console. Please add it to the 'Authorized domains' list in your Firebase Authentication settings.`;
       }
       setLoginError(message);
     }

@@ -3,7 +3,7 @@ import { collection, query, where, getDocs, addDoc, updateDoc, doc, onSnapshot, 
 import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { Store, Product, Order, Coupon } from '../types';
-import { Package, ShoppingBag, Plus, Edit, Trash2, Store as StoreIcon, Tag, Settings, Image as ImageIcon, DollarSign, Clock } from 'lucide-react';
+import { Package, ShoppingBag, Plus, Edit, Trash2, Store as StoreIcon, Tag, Settings, Image as ImageIcon, DollarSign, Clock, Share2, MapPin } from 'lucide-react';
 import { compressImage } from '../utils/imageUpload';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 
@@ -127,6 +127,7 @@ export const VendorDashboard = () => {
         category: storeForm.category,
       };
       
+      if (storeForm.location !== undefined) updateData.location = storeForm.location;
       if (storeForm.logoUrl) updateData.logoUrl = storeForm.logoUrl;
       if (storeForm.bannerUrl) updateData.bannerUrl = storeForm.bannerUrl;
 
@@ -889,7 +890,23 @@ export const VendorDashboard = () => {
       {activeTab === 'settings' && (
         <div className="bg-white shadow sm:rounded-lg">
           <div className="px-4 py-5 sm:p-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">Store Settings</h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg leading-6 font-medium text-gray-900">Store Settings</h3>
+              {store?.id && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const url = `${window.location.origin}/stores/${store.id}`;
+                    navigator.clipboard.writeText(url);
+                    alert('Store link copied to clipboard!');
+                  }}
+                  className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-indigo-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  <Share2 className="h-4 w-4 mr-2" />
+                  Share Store Link
+                </button>
+              )}
+            </div>
             <form onSubmit={handleUpdateStore} className="space-y-6">
               <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                 <div className="sm:col-span-3">
@@ -903,6 +920,16 @@ export const VendorDashboard = () => {
                   <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label>
                   <div className="mt-1">
                     <input type="text" name="category" id="category" required value={storeForm.category || ''} onChange={e => setStoreForm({...storeForm, category: e.target.value})} className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+                  </div>
+                </div>
+
+                <div className="sm:col-span-6">
+                  <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
+                  <div className="mt-1 relative rounded-md shadow-sm">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <MapPin className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input type="text" name="location" id="location" value={storeForm.location || ''} onChange={e => setStoreForm({...storeForm, location: e.target.value})} placeholder="e.g., 123 Main St, City, Country" className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md" />
                   </div>
                 </div>
 

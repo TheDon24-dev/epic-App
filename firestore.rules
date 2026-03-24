@@ -64,7 +64,7 @@ service cloud.firestore {
     }
     
     function isValidStore(data) {
-      return data.keys().hasOnly(['vendorId', 'name', 'description', 'category', 'status', 'createdAt', 'logoUrl', 'bannerUrl', 'commissionRate', 'balance', 'totalEarned']) &&
+      return data.keys().hasOnly(['vendorId', 'name', 'description', 'category', 'status', 'createdAt', 'logoUrl', 'bannerUrl', 'commissionRate', 'balance', 'totalEarned', 'location']) &&
              data.vendorId is string && data.vendorId.size() > 0 && data.vendorId.size() < 100 &&
              data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
              data.description is string && data.description.size() < 1000 &&
@@ -75,6 +75,7 @@ service cloud.firestore {
              (!('commissionRate' in data) || (data.commissionRate is number && data.commissionRate >= 0 && data.commissionRate <= 100)) &&
              (!('balance' in data) || (data.balance is number && data.balance >= 0)) &&
              (!('totalEarned' in data) || (data.totalEarned is number && data.totalEarned >= 0)) &&
+             (!('location' in data) || (data.location is string && data.location.size() < 200)) &&
              data.createdAt is timestamp;
     }
     
