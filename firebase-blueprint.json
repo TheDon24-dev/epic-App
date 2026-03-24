@@ -1,0 +1,279 @@
+{
+  "entities": {
+    "Banner": {
+      "title": "Banner",
+      "description": "A promotional banner for the home page",
+      "type": "object",
+      "properties": {
+        "imageUrl": { "type": "string", "format": "uri" },
+        "link": { "type": "string", "format": "uri" },
+        "active": { "type": "boolean" },
+        "order": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["imageUrl", "active", "order", "createdAt"]
+    },
+    "User": {
+      "title": "User",
+      "description": "A user of the platform (customer, vendor, or admin)",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "name": { "type": "string" },
+        "role": { "type": "string", "enum": ["customer", "vendor", "admin", "pending"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["active", "suspended"] },
+        "isOnline": { "type": "boolean" },
+        "lastSeen": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "name", "role", "createdAt", "status"]
+    },
+    "Store": {
+      "title": "Store",
+      "description": "A vendor's store profile",
+      "type": "object",
+      "properties": {
+        "vendorId": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved", "suspended"] },
+        "logoUrl": { "type": "string" },
+        "bannerUrl": { "type": "string" },
+        "commissionRate": { "type": "number" },
+        "balance": { "type": "number" },
+        "totalEarned": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["vendorId", "name", "description", "category", "status", "createdAt"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "An item for sale in a store",
+      "type": "object",
+      "properties": {
+        "storeId": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "category": { "type": "string" },
+        "inventory": { "type": "number" },
+        "imageUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["storeId", "name", "description", "price", "category", "inventory", "imageUrl", "createdAt"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A customer's order from a store",
+      "type": "object",
+      "properties": {
+        "customerId": { "type": "string" },
+        "storeId": { "type": "string" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "productId": { "type": "string" },
+              "name": { "type": "string" },
+              "price": { "type": "number" },
+              "quantity": { "type": "number" }
+            }
+          }
+        },
+        "total": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "processing", "shipped", "delivered", "cancelled"] },
+        "payoutStatus": { "type": "string", "enum": ["pending", "credited"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customerId", "storeId", "items", "total", "status", "createdAt"]
+    },
+    "Chat": {
+      "title": "Chat",
+      "description": "A chat session between a customer and a vendor, or support",
+      "type": "object",
+      "properties": {
+        "customerId": { "type": "string" },
+        "vendorId": { "type": "string" },
+        "storeId": { "type": "string" },
+        "lastMessage": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "type": { "type": "string", "enum": ["store_customer", "support"] }
+      },
+      "required": ["customerId", "vendorId", "storeId", "lastMessage", "updatedAt"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "A single message within a chat",
+      "type": "object",
+      "properties": {
+        "chatId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["chatId", "senderId", "text", "createdAt"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "A customer's review for a product",
+      "type": "object",
+      "properties": {
+        "productId": { "type": "string" },
+        "storeId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "rating": { "type": "number" },
+        "comment": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["productId", "storeId", "customerId", "rating", "comment", "createdAt"]
+    },
+    "Coupon": {
+      "title": "Coupon",
+      "description": "A discount code for a store",
+      "type": "object",
+      "properties": {
+        "storeId": { "type": "string" },
+        "code": { "type": "string" },
+        "type": { "type": "string", "enum": ["percentage", "fixed"] },
+        "amount": { "type": "number" },
+        "expiryDate": { "type": "string", "format": "date-time" },
+        "minPurchase": { "type": "number" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["storeId", "code", "type", "amount", "expiryDate", "minPurchase", "active", "createdAt"]
+    },
+    "Wishlist": {
+      "title": "Wishlist",
+      "description": "A customer's saved products",
+      "type": "object",
+      "properties": {
+        "customerId": { "type": "string" },
+        "productIds": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["customerId", "productIds"]
+    },
+    "Follow": {
+      "title": "Follow",
+      "description": "A customer following a store",
+      "type": "object",
+      "properties": {
+        "customerId": { "type": "string" },
+        "storeId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customerId", "storeId", "createdAt"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "An alert for a customer",
+      "type": "object",
+      "properties": {
+        "customerId": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "read": { "type": "boolean" },
+        "link": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customerId", "title", "message", "read", "createdAt"]
+    },
+    "Payout": {
+      "title": "Payout",
+      "description": "A vendor's request to withdraw earnings",
+      "type": "object",
+      "properties": {
+        "storeId": { "type": "string" },
+        "vendorId": { "type": "string" },
+        "amount": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "processing", "completed", "rejected"] },
+        "method": { "type": "string" },
+        "details": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "processedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["storeId", "vendorId", "amount", "status", "method", "details", "createdAt"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "A financial transaction for a store",
+      "type": "object",
+      "properties": {
+        "storeId": { "type": "string" },
+        "vendorId": { "type": "string" },
+        "orderId": { "type": "string" },
+        "payoutId": { "type": "string" },
+        "type": { "type": "string", "enum": ["earning", "withdrawal"] },
+        "amount": { "type": "number" },
+        "commissionAmount": { "type": "number" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["storeId", "vendorId", "type", "amount", "description", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Users collection"
+    },
+    "/stores/{storeId}": {
+      "schema": { "$ref": "#/entities/Store" },
+      "description": "Stores collection"
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Products collection"
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Orders collection"
+    },
+    "/chats/{chatId}": {
+      "schema": { "$ref": "#/entities/Chat" },
+      "description": "Chats collection"
+    },
+    "/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/Message" },
+      "description": "Messages collection"
+    },
+    "/reviews/{reviewId}": {
+      "schema": { "$ref": "#/entities/Review" },
+      "description": "Reviews collection"
+    },
+    "/coupons/{couponId}": {
+      "schema": { "$ref": "#/entities/Coupon" },
+      "description": "Coupons collection"
+    },
+    "/wishlists/{wishlistId}": {
+      "schema": { "$ref": "#/entities/Wishlist" },
+      "description": "Wishlists collection"
+    },
+    "/follows/{followId}": {
+      "schema": { "$ref": "#/entities/Follow" },
+      "description": "Follows collection"
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/Notification" },
+      "description": "Notifications collection"
+    },
+    "/payouts/{payoutId}": {
+      "schema": { "$ref": "#/entities/Payout" },
+      "description": "Payouts collection"
+    },
+    "/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/Transaction" },
+      "description": "Transactions collection"
+    },
+    "/banners/{bannerId}": {
+      "schema": { "$ref": "#/entities/Banner" },
+      "description": "Banners collection"
+    }
+  }
+}
