@@ -13,6 +13,18 @@
       },
       "required": ["imageUrl", "active", "order", "createdAt"]
     },
+    "Settings": {
+      "title": "Settings",
+      "description": "Global platform settings",
+      "type": "object",
+      "properties": {
+        "siteName": { "type": "string" },
+        "supportEmail": { "type": "string", "format": "email" },
+        "maintenanceMode": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["siteName", "supportEmail"]
+    },
     "User": {
       "title": "User",
       "description": "A user of the platform (customer, vendor, or admin)",
@@ -274,6 +286,10 @@
     "/banners/{bannerId}": {
       "schema": { "$ref": "#/entities/Banner" },
       "description": "Banners collection"
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/Settings" },
+      "description": "Global platform settings"
     }
   }
 }

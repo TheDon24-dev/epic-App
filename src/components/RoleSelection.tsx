@@ -14,13 +14,7 @@ export const RoleSelection = () => {
     setLoading(true);
     try {
       await updateDoc(doc(db, 'users', userProfile.uid), { role });
-      // The AuthContext will automatically update the userProfile state
-      // since it's listening to auth state, but we might need to refresh the page
-      // or rely on the onAuthStateChanged if we had a snapshot listener.
-      // Wait, AuthContext only fetches the user profile once on login.
-      // We should probably reload the window to fetch the updated profile,
-      // or update the context state directly.
-      window.location.reload();
+      // AuthContext uses onSnapshot, so userProfile will update automatically
     } catch (error) {
       handleFirestoreError(error, OperationType.UPDATE, `users/${userProfile.uid}`);
       setLoading(false);

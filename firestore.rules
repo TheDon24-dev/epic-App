@@ -17,8 +17,8 @@ service cloud.firestore {
     
     function isAdmin() {
       return isAuthenticated() &&
-        ((exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
-          (('email' in request.auth.token) && request.auth.token.email == "dereklamson24@gmail.com" && ('email_verified' in request.auth.token) && request.auth.token.email_verified == true));
+        ((('email' in request.auth.token) && request.auth.token.email == "dereklamson24@gmail.com" && ('email_verified' in request.auth.token) && request.auth.token.email_verified == true) ||
+         (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'));
     }
     
     function isVendor() {
@@ -332,6 +332,13 @@ service cloud.firestore {
       allow read: if true;
       allow create: if isAdmin() && isValidBanner(request.resource.data);
       allow update: if isAdmin() && isValidBanner(request.resource.data) && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if isAdmin();
+    }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow create: if isAdmin();
+      allow update: if isAdmin();
       allow delete: if isAdmin();
     }
   }

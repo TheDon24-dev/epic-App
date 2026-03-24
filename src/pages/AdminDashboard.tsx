@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, query, getDocs, updateDoc, doc, onSnapshot, deleteDoc, runTransaction, getDoc, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, query, getDocs, updateDoc, doc, onSnapshot, deleteDoc, runTransaction, getDoc, addDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { Store, User, Order, Coupon, Banner } from '../types';
@@ -15,6 +15,7 @@ export const AdminDashboard = () => {
   const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [payouts, setPayouts] = useState<any[]>([]);
   const [banners, setBanners] = useState<Banner[]>([]);
+  const [settings, setSettings] = useState<any>(null);
   const [newBanner, setNewBanner] = useState({ imageUrl: '', link: '', order: 0, active: true });
   const [isAddingBanner, setIsAddingBanner] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -44,8 +45,17 @@ export const AdminDashboard = () => {
 
     const unsubscribeBanners = onSnapshot(collection(db, 'banners'), (snapshot) => {
       setBanners(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Banner)));
-      setLoading(false);
     }, (error) => handleFirestoreError(error, OperationType.LIST, 'banners'));
+
+    const unsubscribeSettings = onSnapshot(doc(db, 'settings', 'global'), (snapshot) => {
+      if (snapshot.exists()) {
+        setSettings({ id: snapshot.id, ...snapshot.data() });
+      } else {
+        // Initialize settings if they don't exist
+        setSettings({ siteName: 'Multi-Vendor Marketplace', supportEmail: 'support@example.com', maintenanceMode: false });
+      }
+      setLoading(false);
+    }, (error) => handleFirestoreError(error, OperationType.GET, 'settings/global'));
 
     return () => {
       unsubscribeUsers();
@@ -54,6 +64,7 @@ export const AdminDashboard = () => {
       unsubscribeCoupons();
       unsubscribePayouts();
       unsubscribeBanners();
+      unsubscribeSettings();
     };
   }, [userProfile]);
 
@@ -191,6 +202,29 @@ export const AdminDashboard = () => {
       await updateDoc(doc(db, 'banners', banner.id!), { active: !banner.active });
     } catch (error) {
       handleFirestoreError(error, OperationType.UPDATE, `banners/${banner.id}`);
+    }
+  };
+
+  const handleUpdateSettings = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const settingsRef = doc(db, 'settings', 'global');
+      const settingsDoc = await getDoc(settingsRef);
+      
+      if (settingsDoc.exists()) {
+        await updateDoc(settingsRef, {
+          ...settings,
+          updatedAt: serverTimestamp()
+        });
+      } else {
+        await setDoc(settingsRef, {
+          ...settings,
+          updatedAt: serverTimestamp()
+        });
+      }
+      alert('Settings updated successfully!');
+    } catch (error) {
+      handleFirestoreError(error, OperationType.WRITE, 'settings/global');
     }
   };
 
@@ -614,6 +648,61 @@ export const AdminDashboard = () => {
             <li className="px-4 py-8 text-center text-gray-500">No banners found.</li>
           )}
         </ul>
+      </div>
+
+      <div className="bg-white shadow overflow-hidden sm:rounded-md mt-8">
+        <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
+          <h3 className="text-lg leading-6 font-medium text-gray-900 flex items-center">
+            <Activity className="mr-2 h-5 w-5 text-gray-400" />
+            Platform Settings
+          </h3>
+        </div>
+        <div className="p-6">
+          <form onSubmit={handleUpdateSettings} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Site Name</label>
+                <input
+                  type="text"
+                  required
+                  value={settings?.siteName || ''}
+                  onChange={(e) => setSettings({ ...settings, siteName: e.target.value })}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Support Email</label>
+                <input
+                  type="email"
+                  required
+                  value={settings?.supportEmail || ''}
+                  onChange={(e) => setSettings({ ...settings, supportEmail: e.target.value })}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+              </div>
+            </div>
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="maintenanceMode"
+                checked={settings?.maintenanceMode || false}
+                onChange={(e) => setSettings({ ...settings, maintenanceMode: e.target.checked })}
+                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+              />
+              <label htmlFor="maintenanceMode" className="ml-2 block text-sm text-gray-900">
+                Maintenance Mode (Disable customer access)
+              </label>
+            </div>
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Save Settings
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
 
     </div>

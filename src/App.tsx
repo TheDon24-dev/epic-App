@@ -19,10 +19,51 @@ import StorePage from './pages/StorePage';
 import { Notifications } from './pages/Notifications';
 import { RoleSelection } from './components/RoleSelection';
 import { Profile } from './pages/Profile';
+import { Maintenance } from './pages/Maintenance';
+import { useState, useEffect } from 'react';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from './firebase';
 
 const AppContent = () => {
-  const { userProfile } = useAuth();
-  
+  const { userProfile, currentUser, loading: authLoading } = useAuth();
+  const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const [supportEmail, setSupportEmail] = useState('support@example.com');
+  const [settingsLoading, setSettingsLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(doc(db, 'settings', 'global'), (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.data();
+        setMaintenanceMode(data.maintenanceMode);
+        setSupportEmail(data.supportEmail || 'support@example.com');
+      }
+      setSettingsLoading(false);
+    }, (error) => {
+      console.error("Error fetching settings:", error);
+      setSettingsLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (authLoading || settingsLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="flex flex-col items-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mb-4"></div>
+          <p className="text-gray-600 font-medium">Loading your profile...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Redirect to maintenance page if enabled and user is not an admin
+  if (maintenanceMode && userProfile?.role !== 'admin') {
+    return <Maintenance supportEmail={supportEmail} />;
+  }
+
+  console.log("AppContent render:", { authLoading, settingsLoading, currentUser: currentUser?.email, role: userProfile?.role });
+
   return (
     <Router>
       <div className="min-h-screen bg-gray-50 flex flex-col">

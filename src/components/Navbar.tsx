@@ -34,7 +34,7 @@ const playNotificationSound = () => {
 };
 
 export const Navbar = () => {
-  const { userProfile, loginWithGoogle, logout } = useAuth();
+  const { userProfile, loginError, loginWithGoogle, logout, clearError } = useAuth();
   const { cart } = useCart();
   const navigate = useNavigate();
   const [unreadCount, setUnreadCount] = useState(0);
@@ -99,6 +99,17 @@ export const Navbar = () => {
 
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-50">
+      {loginError && (
+        <div className="bg-red-50 border-b border-red-200 px-4 py-2">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <p className="text-sm text-red-600 font-medium">{loginError}</p>
+            <button onClick={clearError} className="text-red-400 hover:text-red-500">
+              <span className="sr-only">Dismiss</span>
+              <Menu className="h-4 w-4 rotate-45" />
+            </button>
+          </div>
+        </div>
+      )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
