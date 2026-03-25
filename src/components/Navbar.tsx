@@ -34,7 +34,7 @@ const playNotificationSound = () => {
 };
 
 export const Navbar = () => {
-  const { userProfile, loginError, loginWithGoogle, logout, clearError } = useAuth();
+  const { userProfile, loginError, loginWithGoogle, logout, switchRole, clearError } = useAuth();
   const { cart } = useCart();
   const navigate = useNavigate();
   const [unreadCount, setUnreadCount] = useState(0);
@@ -146,7 +146,8 @@ export const Navbar = () => {
                 </Link>
               </>
             )}
-            <Link to="/cart" className="relative p-2 text-gray-600 hover:text-indigo-600 transition-colors">
+
+            <Link to="/cart" className="relative p-2 text-gray-600 hover:text-indigo-600 transition-colors" title="Cart">
               <ShoppingCart className="h-6 w-6" />
               {cartItemsCount > 0 && (
                 <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full">
@@ -162,6 +163,14 @@ export const Navbar = () => {
                 )}
                 {userProfile.role === 'vendor' && (
                   <Link to="/vendor" className="text-sm font-medium text-gray-700 hover:text-indigo-600">My Store</Link>
+                )}
+                {userProfile.role !== 'admin' && (
+                  <button
+                    onClick={() => switchRole(userProfile.role === 'vendor' ? 'customer' : 'vendor')}
+                    className="text-xs font-medium text-indigo-600 hover:text-indigo-500"
+                  >
+                    Switch to {userProfile.role === 'vendor' ? 'Buyer' : 'Seller'}
+                  </button>
                 )}
                 <Link to="/profile" className="flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600">
                   <User className="h-5 w-5 mr-1" />

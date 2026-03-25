@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Heart, Users, Package, Store } from 'lucide-react';
 
 export const Profile = () => {
-  const { userProfile, logout } = useAuth();
+  const { userProfile, logout, switchRole } = useAuth();
 
   if (!userProfile) {
     return <div className="text-center py-12">Please log in to view your profile.</div>;
@@ -22,9 +22,19 @@ export const Profile = () => {
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">{userProfile.name}</h1>
                 <p className="text-gray-500">{userProfile.email}</p>
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 mt-2 capitalize">
-                  {userProfile.role}
-                </span>
+                <div className="flex items-center space-x-2 mt-2">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 capitalize">
+                    {userProfile.role}
+                  </span>
+                  {userProfile.role !== 'admin' && (
+                    <button
+                      onClick={() => switchRole(userProfile.role === 'vendor' ? 'customer' : 'vendor')}
+                      className="text-xs font-medium text-indigo-600 hover:text-indigo-500 underline"
+                    >
+                      Switch to {userProfile.role === 'vendor' ? 'Buyer' : 'Seller'}
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
             <button

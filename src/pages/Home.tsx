@@ -3,8 +3,9 @@ import { collection, query, getDocs, onSnapshot, where, orderBy } from 'firebase
 import { db } from '../firebase';
 import { Product, Store, Banner } from '../types';
 import { Link } from 'react-router-dom';
-import { Search, Filter, ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
+import { Search, Filter, ChevronLeft, ChevronRight, MapPin, MessageCircle, ShoppingCart } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
+import { useAuth } from '../contexts/AuthContext';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 
 export const Home = () => {
@@ -16,6 +17,7 @@ export const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
+  const { currentUser, loginWithGoogle } = useAuth();
 
   useEffect(() => {
     const fetchStores = async () => {
@@ -222,16 +224,36 @@ export const Home = () => {
                 </div>
                 <p className="text-sm text-gray-600 mt-2 line-clamp-2 flex-1">{product.description}</p>
                 
-                <div className="mt-4 flex items-center justify-between">
+                <div className="mt-4 flex items-center justify-between gap-2">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                     {product.category}
                   </span>
-                  <button
-                    onClick={() => addToCart(product)}
-                    className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
-                    Add to Cart
-                  </button>
+                  <div className="flex items-center space-x-2">
+                    {currentUser ? (
+                      <Link
+                        to={`/chat/${product.storeId}`}
+                        className="p-1.5 border border-gray-300 text-gray-600 rounded-md hover:bg-gray-50 transition-colors"
+                        title="Message Store"
+                      >
+                        <MessageCircle className="h-4 w-4" />
+                      </Link>
+                    ) : (
+                      <button
+                        onClick={loginWithGoogle}
+                        className="p-1.5 border border-gray-300 text-gray-400 rounded-md hover:bg-gray-50 transition-colors"
+                        title="Sign in to message"
+                      >
+                        <MessageCircle className="h-4 w-4" />
+                      </button>
+                    )}
+                    <button
+                      onClick={() => addToCart(product)}
+                      className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      <ShoppingCart className="h-4 w-4 mr-1" />
+                      Add
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

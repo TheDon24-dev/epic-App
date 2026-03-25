@@ -3,9 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import { doc, getDoc, collection, query, where, getDocs, setDoc, updateDoc, arrayUnion, arrayRemove, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Product, Store, Review, Wishlist } from '../types';
-import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
-import { Star, MessageCircle, ShoppingCart, Heart, MapPin } from 'lucide-react';
+import { useCart } from '../contexts/CartContext';
+import { Star, MessageCircle, Heart, MapPin, ShoppingCart } from 'lucide-react';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 
 export const ProductDetails = () => {
@@ -14,14 +14,14 @@ export const ProductDetails = () => {
   const [store, setStore] = useState<Store | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
-  const [quantity, setQuantity] = useState(1);
   const [wishlist, setWishlist] = useState<Wishlist | null>(null);
   const [hasPurchased, setHasPurchased] = useState(false);
   const [hasReviewed, setHasReviewed] = useState(false);
   const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const { userProfile, currentUser, loginWithGoogle } = useAuth();
   const { addToCart } = useCart();
-  const { userProfile, currentUser } = useAuth();
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -225,7 +225,7 @@ export const ProductDetails = () => {
               </div>
             </div>
 
-            <div className="mt-8">
+            <div className="mt-8 space-y-4">
               <div className="flex items-center space-x-4">
                 <div className="flex items-center border border-gray-300 rounded-md">
                   <button 
@@ -255,17 +255,23 @@ export const ProductDetails = () => {
                 </button>
               </div>
 
-              {userProfile && store && userProfile.uid !== store.vendorId && (
-                <div className="mt-4">
-                  <Link
-                    to={`/chat/${store.id}`}
-                    className="w-full flex justify-center items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                  >
-                    <MessageCircle className="h-5 w-5 mr-2 text-gray-400" />
-                    Contact Seller
-                  </Link>
-                </div>
-              )}
+              {store && currentUser && currentUser.uid !== store.vendorId ? (
+                <Link
+                  to={`/chat/${store.id}`}
+                  className="w-full flex justify-center items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+                >
+                  <MessageCircle className="h-5 w-5 mr-2 text-gray-400" />
+                  Message Store
+                </Link>
+              ) : !currentUser ? (
+                <button
+                  onClick={loginWithGoogle}
+                  className="w-full flex justify-center items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-400 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors"
+                >
+                  <MessageCircle className="h-5 w-5 mr-2" />
+                  Sign in to Message Store
+                </button>
+              ) : null}
             </div>
           </div>
         </div>

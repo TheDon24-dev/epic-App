@@ -4,12 +4,12 @@ import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { Product, Wishlist as WishlistType } from '../types';
 import { Link } from 'react-router-dom';
-import { Heart, ShoppingCart } from 'lucide-react';
+import { Heart, MessageCircle, ShoppingCart } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 
 export default function Wishlist() {
-  const { currentUser } = useAuth();
+  const { currentUser, loginWithGoogle } = useAuth();
   const { addToCart } = useCart();
   const [wishlist, setWishlist] = useState<WishlistType | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
@@ -94,14 +94,33 @@ export default function Wishlist() {
                 <p className="text-gray-500 text-sm mt-1 truncate">{product.description}</p>
                 <div className="mt-4 flex items-center justify-between">
                   <span className="text-xl font-bold text-gray-900">${product.price.toFixed(2)}</span>
-                  <button
-                    onClick={() => addToCart(product)}
-                    disabled={product.inventory === 0}
-                    className="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 disabled:bg-gray-400 transition-colors"
-                    title="Add to Cart"
-                  >
-                    <ShoppingCart className="h-5 w-5" />
-                  </button>
+                  <div className="flex items-center space-x-2">
+                    {currentUser ? (
+                      <Link
+                        to={`/chat/${product.storeId}`}
+                        className="p-2 border border-gray-300 text-gray-600 rounded-full hover:bg-gray-50 transition-colors"
+                        title="Message Store"
+                      >
+                        <MessageCircle className="h-5 w-5" />
+                      </Link>
+                    ) : (
+                      <button
+                        onClick={loginWithGoogle}
+                        className="p-2 border border-gray-300 text-gray-400 rounded-full hover:bg-gray-50 transition-colors"
+                        title="Sign in to message"
+                      >
+                        <MessageCircle className="h-5 w-5" />
+                      </button>
+                    )}
+                    <button
+                      onClick={() => addToCart(product)}
+                      disabled={product.inventory === 0}
+                      className="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 disabled:bg-gray-400 transition-colors"
+                      title="Add to Cart"
+                    >
+                      <ShoppingCart className="h-5 w-5" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

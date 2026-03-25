@@ -12,6 +12,7 @@ interface AuthContextType {
   loginError: string | null;
   loginWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
+  switchRole: (newRole: Role) => Promise<void>;
   clearError: () => void;
 }
 
@@ -138,11 +139,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       await signInWithPopup(auth, provider);
       console.log("Google Login successful");
     } catch (error: any) {
+      if (error.code === 'auth/popup-closed-by-user') {
+        console.log("Login popup closed by user");
+        return;
+      }
       console.error("Login failed", error);
       let message = "Login failed. Please try again.";
-      if (error.code === 'auth/popup-closed-by-user') {
-        message = "Login popup was closed. Please try again.";
-      } else if (error.code === 'auth/network-request-failed') {
+      if (error.code === 'auth/network-request-failed') {
         message = "Network error. Please check your connection.";
       } else if (error.code === 'auth/unauthorized-domain') {
         message = `This domain (${window.location.hostname}) is not authorized in the Firebase Console. Please add it to the 'Authorized domains' list in your Firebase Authentication settings.`;
@@ -166,6 +169,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const clearError = () => setLoginError(null);
 
+  const switchRole = async (newRole: Role) => {
+    if (!currentUser) return;
+    try {
+      await updateDoc(doc(db, 'users', currentUser.uid), { role: newRole });
+    } catch (error) {
+      handleFirestoreError(error, OperationType.UPDATE, `users/${currentUser.uid}`);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -178,7 +190,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   return (
-    <AuthContext.Provider value={{ currentUser, userProfile, loading, loginError, loginWithGoogle, logout, clearError }}>
+    <AuthContext.Provider value={{ currentUser, userProfile, loading, loginError, loginWithGoogle, logout, switchRole, clearError }}>
       {children}
     </AuthContext.Provider>
   );
