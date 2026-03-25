@@ -26,13 +26,18 @@ export const Profile = () => {
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 capitalize">
                     {userProfile.role}
                   </span>
-                  {userProfile.role !== 'admin' && (
-                    <button
-                      onClick={() => switchRole(userProfile.role === 'vendor' ? 'customer' : 'vendor')}
-                      className="text-xs font-medium text-indigo-600 hover:text-indigo-500 underline"
-                    >
-                      Switch to {userProfile.role === 'vendor' ? 'Buyer' : 'Seller'}
-                    </button>
+                  {userProfile.email === 'dereklamson24@gmail.com' && (
+                    <div className="flex items-center space-x-2">
+                      {userProfile.role !== 'admin' && (
+                        <button onClick={() => switchRole('admin')} className="text-xs font-medium text-indigo-600 hover:text-indigo-500 underline">Switch to Admin</button>
+                      )}
+                      {userProfile.role !== 'customer' && (
+                        <button onClick={() => switchRole('customer')} className="text-xs font-medium text-indigo-600 hover:text-indigo-500 underline">Switch to Buyer</button>
+                      )}
+                      {userProfile.role !== 'vendor' && (
+                        <button onClick={() => switchRole('vendor')} className="text-xs font-medium text-indigo-600 hover:text-indigo-500 underline">Switch to Seller</button>
+                      )}
+                    </div>
                   )}
                 </div>
               </div>

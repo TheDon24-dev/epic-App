@@ -52,7 +52,7 @@ service cloud.firestore {
     // ===============================================================
     
     function isValidUser(data) {
-      return (hasOnlyAllowedFields(['uid', 'email', 'name', 'role', 'createdAt', 'status']) || hasOnlyAllowedFields(['uid', 'email', 'name', 'role', 'createdAt', 'status', 'isOnline', 'lastSeen'])) &&
+      return data.keys().hasOnly(['uid', 'email', 'name', 'role', 'createdAt', 'status', 'isOnline', 'lastSeen']) &&
              data.uid is string && data.uid.size() > 0 && data.uid.size() < 100 &&
              data.email is string && isValidEmail(data.email) &&
              data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
@@ -210,9 +210,13 @@ service cloud.firestore {
       // Allow creating user profile. Only admin can create admin, otherwise must be customer or vendor or pending.
       allow create: if isAuthenticated() && isValidUser(request.resource.data) && uidUnchanged() &&
         (isAdmin() || (isOwner(userId) && request.resource.data.role in ['customer', 'vendor', 'pending'] && request.resource.data.status == 'active'));
-      // Allow updating user profile. Only admin can change role or status, UNLESS the current role is 'pending'.
+      // Allow updating user profile. Only admin can change role or status, UNLESS the current role is 'pending' or switching between customer/vendor.
       allow update: if isAuthenticated() && isValidUser(request.resource.data) && uidNotModified() &&
-        (isAdmin() || (isOwner(userId) && (request.resource.data.role == resource.data.role || (resource.data.role == 'pending' && request.resource.data.role in ['customer', 'vendor'])) && request.resource.data.status == resource.data.status && request.resource.data.createdAt == resource.data.createdAt));
+        (isAdmin() || (isOwner(userId) && 
+          (request.resource.data.role == resource.data.role || 
+           (resource.data.role in ['customer', 'vendor', 'pending'] && request.resource.data.role in ['customer', 'vendor'])) && 
+          request.resource.data.status == resource.data.status && 
+          request.resource.data.createdAt == resource.data.createdAt));
     }
 
     match /stores/{storeId} {
@@ -224,6 +228,7 @@ service cloud.firestore {
       // Vendors can update their own store (but not change status or vendorId or createdAt). Admins can update anything.
       allow update: if isAuthenticated() && isValidStore(request.resource.data) &&
         (isAdmin() || (isVendor() && resource.data.vendorId == request.auth.uid && request.resource.data.vendorId == resource.data.vendorId && request.resource.data.status == resource.data.status && request.resource.data.createdAt == resource.data.createdAt));
+      allow delete: if isAdmin();
     }
 
     match /products/{productId} {

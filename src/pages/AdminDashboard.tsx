@@ -3,9 +3,10 @@ import { collection, query, getDocs, updateDoc, doc, onSnapshot, deleteDoc, runT
 import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { Store, User, Order, Coupon, Banner } from '../types';
-import { Users, Store as StoreIcon, Activity, DollarSign, CheckCircle, XCircle, Tag, Trash2, Image as ImageIcon } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Users, Store as StoreIcon, Activity, DollarSign, CheckCircle, XCircle, Tag, Trash2, Image as ImageIcon, TrendingUp, ShoppingBag, CreditCard } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, AreaChart, Area } from 'recharts';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
+import { motion } from 'motion/react';
 
 export const AdminDashboard = () => {
   const { userProfile } = useAuth();
@@ -73,6 +74,16 @@ export const AdminDashboard = () => {
       await updateDoc(doc(db, 'stores', storeId), { status });
     } catch (error) {
       handleFirestoreError(error, OperationType.UPDATE, `stores/${storeId}`);
+    }
+  };
+
+  const handleDeleteStore = async (storeId: string) => {
+    if (window.confirm('Are you sure you want to delete this store? This action cannot be undone.')) {
+      try {
+        await deleteDoc(doc(db, 'stores', storeId));
+      } catch (error) {
+        handleFirestoreError(error, OperationType.DELETE, `stores/${storeId}`);
+      }
     }
   };
 
@@ -254,192 +265,251 @@ export const AdminDashboard = () => {
     sales: salesByStore[name]
   }));
 
+  // Prepare sales over time data
+  const salesByDate = orders.reduce((acc, order) => {
+    if (!order.createdAt) return acc;
+    const date = order.createdAt.toDate().toLocaleDateString();
+    if (!acc[date]) acc[date] = 0;
+    acc[date] += order.total;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const timeChartData = Object.keys(salesByDate)
+    .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
+    .map(date => ({
+      date,
+      sales: salesByDate[date]
+    }));
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-extrabold text-gray-900 mb-8">Admin Dashboard</h1>
+    <div className="min-h-screen bg-gray-50/50 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Admin Dashboard</h1>
+            <p className="text-gray-500 mt-1">Manage your marketplace performance and users.</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="px-4 py-2 bg-white border border-gray-200 rounded-xl shadow-sm flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="text-sm font-medium text-gray-600">Live System Status</span>
+            </div>
+          </div>
+        </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <DollarSign className="h-6 w-6 text-gray-400" />
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">Total Revenue</dt>
-                  <dd className="text-lg font-medium text-gray-900">${totalRevenue.toFixed(2)}</dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <StoreIcon className="h-6 w-6 text-gray-400" />
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">Active Stores</dt>
-                  <dd className="text-lg font-medium text-gray-900">{activeStores}</dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <Users className="h-6 w-6 text-gray-400" />
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">Total Users</dt>
-                  <dd className="text-lg font-medium text-gray-900">{users.length}</dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <Activity className="h-6 w-6 text-gray-400" />
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">Total Orders</dt>
-                  <dd className="text-lg font-medium text-gray-900">{orders.length}</dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-white shadow rounded-lg p-6 mb-8">
-        <h2 className="text-lg font-medium text-gray-900 mb-4">Sales by Store</h2>
-        <div className="h-72">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="sales" fill="#4f46e5" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white shadow overflow-hidden sm:rounded-md">
-          <div className="px-4 py-5 border-b border-gray-200 sm:px-6 flex justify-between items-center">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">Store Approvals</h3>
-            {pendingStores > 0 && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                {pendingStores} pending
-              </span>
-            )}
-          </div>
-          <ul className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
-            {stores.map(store => (
-              <li key={store.id} className="px-4 py-4 sm:px-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center flex-1 min-w-0">
-                    {store.logoUrl ? (
-                      <img src={store.logoUrl} alt={store.name} className="h-10 w-10 rounded-full object-cover mr-4 border border-gray-200" />
-                    ) : (
-                      <div className="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center mr-4 border border-gray-200">
-                        <span className="text-sm font-medium text-indigo-600">{store.name.charAt(0)}</span>
-                      </div>
-                    )}
-                    <div>
-                      <p className="text-sm font-medium text-indigo-600 truncate">{store.name}</p>
-                      <p className="text-sm text-gray-500 truncate">{store.category}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    <div className="flex items-center">
-                      <label className="text-xs text-gray-500 mr-2">Comm. Rate (%)</label>
-                      <input 
-                        type="number" 
-                        className="w-16 text-sm border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" 
-                        defaultValue={store.commissionRate ?? 10}
-                        onBlur={(e) => handleUpdateCommissionRate(store.id!, parseFloat(e.target.value))}
-                      />
-                    </div>
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize
-                      ${store.status === 'approved' ? 'bg-green-100 text-green-800' : 
-                        store.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
-                        'bg-red-100 text-red-800'}`}>
-                      {store.status}
-                    </span>
-                    {store.status === 'pending' && (
-                      <button onClick={() => handleUpdateStoreStatus(store.id!, 'approved')} className="text-green-600 hover:text-green-900">
-                        <CheckCircle className="h-5 w-5" />
-                      </button>
-                    )}
-                    {store.status !== 'suspended' && (
-                      <button onClick={() => handleUpdateStoreStatus(store.id!, 'suspended')} className="text-red-600 hover:text-red-900">
-                        <XCircle className="h-5 w-5" />
-                      </button>
-                    )}
-                    {store.status === 'suspended' && (
-                      <button onClick={() => handleUpdateStoreStatus(store.id!, 'approved')} className="text-green-600 hover:text-green-900">
-                        <CheckCircle className="h-5 w-5" />
-                      </button>
-                    )}
-                  </div>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+          {[
+            { label: 'Total Revenue', value: `$${totalRevenue.toLocaleString()}`, icon: DollarSign, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+            { label: 'Active Stores', value: activeStores, icon: StoreIcon, color: 'text-blue-600', bg: 'bg-blue-50' },
+            { label: 'Total Users', value: users.length, icon: Users, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+            { label: 'Total Orders', value: orders.length, icon: ShoppingBag, color: 'text-orange-600', bg: 'bg-orange-50' },
+          ].map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className={`p-3 rounded-xl ${stat.bg}`}>
+                  <stat.icon className={`h-6 w-6 ${stat.color}`} />
                 </div>
-              </li>
-            ))}
-          </ul>
+                <TrendingUp className="h-4 w-4 text-green-500" />
+              </div>
+              <dt className="text-sm font-medium text-gray-500">{stat.label}</dt>
+              <dd className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</dd>
+            </motion.div>
+          ))}
         </div>
 
-        <div className="bg-white shadow overflow-hidden sm:rounded-md">
-          <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">User Management</h3>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+          <div className="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-bold text-gray-900">Revenue Over Time</h2>
+              <select className="text-sm border-gray-200 rounded-lg bg-gray-50 px-3 py-1.5 focus:ring-2 focus:ring-indigo-500/20 outline-none">
+                <option>Last 30 Days</option>
+                <option>Last 7 Days</option>
+              </select>
+            </div>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={timeChartData}>
+                  <defs>
+                    <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.1}/>
+                      <stop offset="95%" stopColor="#4f46e5" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                  <XAxis 
+                    dataKey="date" 
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={{ fill: '#94a3b8', fontSize: 12 }}
+                    dy={10}
+                  />
+                  <YAxis 
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={{ fill: '#94a3b8', fontSize: 12 }}
+                  />
+                  <Tooltip 
+                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                  />
+                  <Area type="monotone" dataKey="sales" stroke="#4f46e5" strokeWidth={3} fillOpacity={1} fill="url(#colorSales)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
           </div>
-          <ul className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
-            {users.map(user => {
-              const isOnline = user.isOnline && user.lastSeen && (new Date().getTime() - user.lastSeen.toDate().getTime() < 5 * 60 * 1000);
-              return (
-                <li key={user.uid} className="px-4 py-4 sm:px-6">
+
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h2 className="text-lg font-bold text-gray-900 mb-6">Sales by Store</h2>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={chartData} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
+                  <XAxis type="number" hide />
+                  <YAxis 
+                    dataKey="name" 
+                    type="category" 
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={{ fill: '#64748b', fontSize: 11 }}
+                    width={80}
+                  />
+                  <Tooltip 
+                    cursor={{ fill: '#f8fafc' }}
+                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                  />
+                  <Bar dataKey="sales" fill="#4f46e5" radius={[0, 4, 4, 0]} barSize={20} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="px-6 py-5 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+              <h3 className="text-lg font-bold text-gray-900">Store Approvals</h3>
+              {pendingStores > 0 && (
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">
+                  {pendingStores} pending
+                </span>
+              )}
+            </div>
+            <ul className="divide-y divide-gray-100 max-h-[500px] overflow-y-auto">
+              {stores.map(store => (
+                <li key={store.id} className="px-6 py-5 hover:bg-gray-50 transition-colors">
                   <div className="flex items-center justify-between">
-                    <div className="flex-1 min-w-0 flex items-center">
-                      <div className={`h-3 w-3 rounded-full mr-3 ${isOnline ? 'bg-green-500' : 'bg-gray-300'}`} title={isOnline ? 'Online' : 'Offline'} />
+                    <div className="flex items-center flex-1 min-w-0">
+                      {store.logoUrl ? (
+                        <img src={store.logoUrl} alt={store.name} className="h-12 w-12 rounded-xl object-cover mr-4 border border-gray-100 shadow-sm" />
+                      ) : (
+                        <div className="h-12 w-12 rounded-xl bg-indigo-50 flex items-center justify-center mr-4 border border-indigo-100">
+                          <span className="text-sm font-bold text-indigo-600">{store.name.charAt(0)}</span>
+                        </div>
+                      )}
                       <div>
-                        <p className="text-sm font-medium text-gray-900 truncate flex items-center">
-                          {user.name}
-                          <span className="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                            {user.role === 'vendor' ? 'Seller' : user.role === 'customer' ? 'Buyer' : user.role}
-                          </span>
-                        </p>
-                        <p className="text-sm text-gray-500 truncate">{user.email}</p>
+                        <p className="text-sm font-bold text-gray-900 truncate">{store.name}</p>
+                        <p className="text-xs text-gray-500 mt-0.5">{store.category}</p>
                       </div>
                     </div>
-                    <div className="flex items-center">
-                      <select
-                        value={user.role}
-                        onChange={(e) => handleUpdateUserRole(user.uid, e.target.value as User['role'])}
-                        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                      >
-                        <option value="customer">Customer</option>
-                        <option value="vendor">Vendor</option>
-                        <option value="admin">Admin</option>
-                      </select>
+                    <div className="flex items-center gap-4">
+                      <div className="hidden sm:flex flex-col items-end mr-2">
+                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Comm. Rate</label>
+                        <div className="flex items-center gap-1 mt-1">
+                          <input 
+                            type="number" 
+                            className="w-12 text-xs font-bold border-none bg-gray-100 rounded-lg px-2 py-1 focus:ring-2 focus:ring-indigo-500/20 outline-none" 
+                            defaultValue={store.commissionRate ?? 10}
+                            onBlur={(e) => handleUpdateCommissionRate(store.id!, parseFloat(e.target.value))}
+                          />
+                          <span className="text-xs text-gray-400">%</span>
+                        </div>
+                      </div>
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider
+                        ${store.status === 'approved' ? 'bg-emerald-100 text-emerald-700' : 
+                          store.status === 'pending' ? 'bg-amber-100 text-amber-700' : 
+                          'bg-rose-100 text-rose-700'}`}>
+                        {store.status}
+                      </span>
+                      <div className="flex items-center gap-1">
+                        {store.status === 'pending' && (
+                          <button onClick={() => handleUpdateStoreStatus(store.id!, 'approved')} className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Approve Store">
+                            <CheckCircle className="h-5 w-5" />
+                          </button>
+                        )}
+                        {store.status !== 'suspended' && (
+                          <button onClick={() => handleUpdateStoreStatus(store.id!, 'suspended')} className="p-2 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors" title="Suspend Store">
+                            <XCircle className="h-5 w-5" />
+                          </button>
+                        )}
+                        {store.status === 'suspended' && (
+                          <button onClick={() => handleUpdateStoreStatus(store.id!, 'approved')} className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Approve Store">
+                            <CheckCircle className="h-5 w-5" />
+                          </button>
+                        )}
+                        <button onClick={() => handleDeleteStore(store.id!)} className="p-2 text-rose-600 hover:bg-rose-50 rounded-lg transition-colors" title="Delete Store">
+                          <Trash2 className="h-5 w-5" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </li>
-              );
-            })}
-          </ul>
+              ))}
+            </ul>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="px-6 py-5 border-b border-gray-100 bg-gray-50/50">
+              <h3 className="text-lg font-bold text-gray-900">User Management</h3>
+            </div>
+            <ul className="divide-y divide-gray-100 max-h-[500px] overflow-y-auto">
+              {users.map(user => {
+                const isOnline = user.isOnline && user.lastSeen && (new Date().getTime() - user.lastSeen.toDate().getTime() < 5 * 60 * 1000);
+                return (
+                  <li key={user.uid} className="px-6 py-5 hover:bg-gray-50 transition-colors">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1 min-w-0 flex items-center">
+                        <div className="relative">
+                          <div className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center border border-gray-200">
+                            <span className="text-sm font-bold text-gray-500">{user.name.charAt(0)}</span>
+                          </div>
+                          <div className={`absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-white ${isOnline ? 'bg-emerald-500' : 'bg-gray-300'}`} />
+                        </div>
+                        <div className="ml-4">
+                          <div className="flex items-center gap-2">
+                            <p className="text-sm font-bold text-gray-900 truncate">{user.name}</p>
+                            <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-md ${
+                              user.role === 'admin' ? 'bg-purple-100 text-purple-700' :
+                              user.role === 'vendor' ? 'bg-blue-100 text-blue-700' :
+                              'bg-gray-100 text-gray-600'
+                            }`}>
+                              {user.role === 'vendor' ? 'Seller' : user.role === 'customer' ? 'Buyer' : user.role}
+                            </span>
+                          </div>
+                          <p className="text-xs text-gray-500 mt-0.5">{user.email}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center">
+                        <select
+                          value={user.role}
+                          onChange={(e) => handleUpdateUserRole(user.uid, e.target.value as User['role'])}
+                          className="text-xs font-bold border-none bg-gray-100 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500/20 outline-none"
+                        >
+                          <option value="customer">Customer</option>
+                          <option value="vendor">Vendor</option>
+                          <option value="admin">Admin</option>
+                        </select>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </div>
 

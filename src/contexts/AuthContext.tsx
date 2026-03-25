@@ -47,8 +47,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             const userData = docSnap.data() as User;
             console.log("Profile data received, role:", userData.role);
             
-            // Handle admin upgrade if needed
-            if (user.email === 'dereklamson24@gmail.com' && userData.role !== 'admin') {
+            // Handle admin upgrade if needed - only if pending to allow switching for testing
+            if (user.email === 'dereklamson24@gmail.com' && userData.role === 'pending') {
               console.log("Upgrading dereklamson24@gmail.com to admin role");
               try {
                 await updateDoc(userDocRef, { role: 'admin' });

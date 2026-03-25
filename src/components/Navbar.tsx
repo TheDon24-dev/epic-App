@@ -164,13 +164,18 @@ export const Navbar = () => {
                 {userProfile.role === 'vendor' && (
                   <Link to="/vendor" className="text-sm font-medium text-gray-700 hover:text-indigo-600">My Store</Link>
                 )}
-                {userProfile.role !== 'admin' && (
-                  <button
-                    onClick={() => switchRole(userProfile.role === 'vendor' ? 'customer' : 'vendor')}
-                    className="text-xs font-medium text-indigo-600 hover:text-indigo-500"
-                  >
-                    Switch to {userProfile.role === 'vendor' ? 'Buyer' : 'Seller'}
-                  </button>
+                {userProfile.email === 'dereklamson24@gmail.com' && (
+                  <div className="flex items-center space-x-2">
+                    {userProfile.role !== 'admin' && (
+                      <button onClick={() => switchRole('admin')} className="text-xs font-medium text-indigo-600 hover:text-indigo-500">Admin</button>
+                    )}
+                    {userProfile.role !== 'customer' && (
+                      <button onClick={() => switchRole('customer')} className="text-xs font-medium text-indigo-600 hover:text-indigo-500">Buyer</button>
+                    )}
+                    {userProfile.role !== 'vendor' && (
+                      <button onClick={() => switchRole('vendor')} className="text-xs font-medium text-indigo-600 hover:text-indigo-500">Seller</button>
+                    )}
+                  </div>
                 )}
                 <Link to="/profile" className="flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600">
                   <User className="h-5 w-5 mr-1" />
