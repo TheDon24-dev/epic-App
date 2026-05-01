@@ -244,7 +244,7 @@ export const AdminDashboard = () => {
   }
 
   if (loading) {
-    return <div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div></div>;
+    return <div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-sky"></div></div>;
   }
 
   const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
@@ -282,52 +282,52 @@ export const AdminDashboard = () => {
     }));
 
   return (
-    <div className="min-h-screen bg-gray-50/50 py-8">
+    <div className="min-h-screen cinematic-bg py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Admin Dashboard</h1>
-            <p className="text-gray-500 mt-1">Manage your marketplace performance and users.</p>
+            <h1 className="text-3xl font-bold text-white tracking-tight text-gradient">Admin Dashboard</h1>
+            <p className="text-gray-400 mt-1">Manage your marketplace performance and users.</p>
           </div>
           <div className="flex items-center gap-3">
-            <div className="px-4 py-2 bg-white border border-gray-200 rounded-xl shadow-sm flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-sm font-medium text-gray-600">Live System Status</span>
+            <div className="px-4 py-2 glass-panel rounded-xl flex items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
+              <span className="text-sm font-medium text-gray-300">Live System Status</span>
             </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
           {[
-            { label: 'Total Revenue', value: `$${totalRevenue.toLocaleString()}`, icon: DollarSign, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-            { label: 'Active Stores', value: activeStores, icon: StoreIcon, color: 'text-blue-600', bg: 'bg-blue-50' },
-            { label: 'Total Users', value: users.length, icon: Users, color: 'text-indigo-600', bg: 'bg-indigo-50' },
-            { label: 'Total Orders', value: orders.length, icon: ShoppingBag, color: 'text-orange-600', bg: 'bg-orange-50' },
+            { label: 'Total Revenue', value: `$${totalRevenue.toLocaleString()}`, icon: DollarSign, color: 'text-green-400', bg: 'bg-green-500/20' },
+            { label: 'Active Stores', value: activeStores, icon: StoreIcon, color: 'text-blue-400', bg: 'bg-blue-500/20' },
+            { label: 'Total Users', value: users.length, icon: Users, color: 'text-brand-purple', bg: 'bg-brand-purple/20' },
+            { label: 'Total Orders', value: orders.length, icon: ShoppingBag, color: 'text-orange-400', bg: 'bg-orange-500/20' },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100"
+              className="glass-card p-6 rounded-2xl"
             >
               <div className="flex items-center justify-between mb-4">
-                <div className={`p-3 rounded-xl ${stat.bg}`}>
+                <div className={`p-3 rounded-xl ${stat.bg} border border-white/5`}>
                   <stat.icon className={`h-6 w-6 ${stat.color}`} />
                 </div>
-                <TrendingUp className="h-4 w-4 text-green-500" />
+                <TrendingUp className="h-4 w-4 text-green-400" />
               </div>
-              <dt className="text-sm font-medium text-gray-500">{stat.label}</dt>
-              <dd className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</dd>
+              <dt className="text-sm font-medium text-gray-400">{stat.label}</dt>
+              <dd className="text-2xl font-bold text-white mt-1">{stat.value}</dd>
             </motion.div>
           ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-          <div className="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+          <div className="lg:col-span-2 glass-panel p-6 rounded-2xl">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-bold text-gray-900">Revenue Over Time</h2>
-              <select className="text-sm border-gray-200 rounded-lg bg-gray-50 px-3 py-1.5 focus:ring-2 focus:ring-indigo-500/20 outline-none">
+              <h2 className="text-lg font-bold text-white">Revenue Over Time</h2>
+              <select className="text-sm border-white/10 rounded-lg bg-white/5 text-white px-3 py-1.5 focus:ring-2 focus:ring-brand-sky/20 outline-none [&>option]:bg-gray-900">
                 <option>Last 30 Days</option>
                 <option>Last 7 Days</option>
               </select>
@@ -337,11 +337,11 @@ export const AdminDashboard = () => {
                 <AreaChart data={timeChartData}>
                   <defs>
                     <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.1}/>
-                      <stop offset="95%" stopColor="#4f46e5" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.1)" />
                   <XAxis 
                     dataKey="date" 
                     axisLine={false} 
@@ -355,34 +355,36 @@ export const AdminDashboard = () => {
                     tick={{ fill: '#94a3b8', fontSize: 12 }}
                   />
                   <Tooltip 
-                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                    contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', backgroundColor: 'rgba(15,23,42,0.9)', color: '#fff' }}
+                    itemStyle={{ color: '#fff' }}
                   />
-                  <Area type="monotone" dataKey="sales" stroke="#4f46e5" strokeWidth={3} fillOpacity={1} fill="url(#colorSales)" />
+                  <Area type="monotone" dataKey="sales" stroke="#0ea5e9" strokeWidth={3} fillOpacity={1} fill="url(#colorSales)" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-            <h2 className="text-lg font-bold text-gray-900 mb-6">Sales by Store</h2>
+          <div className="glass-panel p-6 rounded-2xl">
+            <h2 className="text-lg font-bold text-white mb-6">Sales by Store</h2>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
+                  <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="rgba(255,255,255,0.1)" />
                   <XAxis type="number" hide />
                   <YAxis 
                     dataKey="name" 
                     type="category" 
                     axisLine={false} 
                     tickLine={false} 
-                    tick={{ fill: '#64748b', fontSize: 11 }}
+                    tick={{ fill: '#94a3b8', fontSize: 11 }}
                     width={80}
                   />
                   <Tooltip 
-                    cursor={{ fill: '#f8fafc' }}
-                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                    cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                    contentStyle={{ borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', backgroundColor: 'rgba(15,23,42,0.9)', color: '#fff' }}
+                    itemStyle={{ color: '#fff' }}
                   />
-                  <Bar dataKey="sales" fill="#4f46e5" radius={[0, 4, 4, 0]} barSize={20} />
+                  <Bar dataKey="sales" fill="#a855f7" radius={[0, 4, 4, 0]} barSize={20} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -390,30 +392,30 @@ export const AdminDashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div className="px-6 py-5 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-              <h3 className="text-lg font-bold text-gray-900">Store Approvals</h3>
+          <div className="glass-panel rounded-2xl overflow-hidden">
+            <div className="px-6 py-5 border-b border-white/10 flex justify-between items-center bg-white/5">
+              <h3 className="text-lg font-bold text-white">Store Approvals</h3>
               {pendingStores > 0 && (
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
                   {pendingStores} pending
                 </span>
               )}
             </div>
-            <ul className="divide-y divide-gray-100 max-h-[500px] overflow-y-auto">
+            <ul className="divide-y divide-white/10 max-h-[500px] overflow-y-auto custom-scrollbar">
               {stores.map(store => (
-                <li key={store.id} className="px-6 py-5 hover:bg-gray-50 transition-colors">
+                <li key={store.id} className="px-6 py-5 hover:bg-white/5 transition-colors">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center flex-1 min-w-0">
                       {store.logoUrl ? (
-                        <img src={store.logoUrl} alt={store.name} className="h-12 w-12 rounded-xl object-cover mr-4 border border-gray-100 shadow-sm" />
+                        <img src={store.logoUrl} alt={store.name} className="h-12 w-12 rounded-xl object-cover mr-4 border border-white/10 shadow-sm" />
                       ) : (
-                        <div className="h-12 w-12 rounded-xl bg-indigo-50 flex items-center justify-center mr-4 border border-indigo-100">
-                          <span className="text-sm font-bold text-indigo-600">{store.name.charAt(0)}</span>
+                        <div className="h-12 w-12 rounded-xl bg-white/5 flex items-center justify-center mr-4 border border-white/10">
+                          <span className="text-sm font-bold text-brand-sky">{store.name.charAt(0)}</span>
                         </div>
                       )}
                       <div>
-                        <p className="text-sm font-bold text-gray-900 truncate">{store.name}</p>
-                        <p className="text-xs text-gray-500 mt-0.5">{store.category}</p>
+                        <p className="text-sm font-bold text-white truncate">{store.name}</p>
+                        <p className="text-xs text-gray-400 mt-0.5">{store.category}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
@@ -422,36 +424,36 @@ export const AdminDashboard = () => {
                         <div className="flex items-center gap-1 mt-1">
                           <input 
                             type="number" 
-                            className="w-12 text-xs font-bold border-none bg-gray-100 rounded-lg px-2 py-1 focus:ring-2 focus:ring-indigo-500/20 outline-none" 
+                            className="w-12 text-xs font-bold border border-white/10 bg-white/5 text-white rounded-lg px-2 py-1 focus:ring-2 focus:ring-brand-sky/50 outline-none" 
                             defaultValue={store.commissionRate ?? 10}
                             onBlur={(e) => handleUpdateCommissionRate(store.id!, parseFloat(e.target.value))}
                           />
                           <span className="text-xs text-gray-400">%</span>
                         </div>
                       </div>
-                      <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider
-                        ${store.status === 'approved' ? 'bg-emerald-100 text-emerald-700' : 
-                          store.status === 'pending' ? 'bg-amber-100 text-amber-700' : 
-                          'bg-rose-100 text-rose-700'}`}>
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider backdrop-blur-md border
+                        ${store.status === 'approved' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' : 
+                          store.status === 'pending' ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 
+                          'bg-rose-500/20 text-rose-300 border-rose-500/30'}`}>
                         {store.status}
                       </span>
                       <div className="flex items-center gap-1">
                         {store.status === 'pending' && (
-                          <button onClick={() => handleUpdateStoreStatus(store.id!, 'approved')} className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Approve Store">
+                          <button onClick={() => handleUpdateStoreStatus(store.id!, 'approved')} className="p-2 text-emerald-400 hover:bg-emerald-500/20 rounded-lg transition-colors" title="Approve Store">
                             <CheckCircle className="h-5 w-5" />
                           </button>
                         )}
                         {store.status !== 'suspended' && (
-                          <button onClick={() => handleUpdateStoreStatus(store.id!, 'suspended')} className="p-2 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors" title="Suspend Store">
+                          <button onClick={() => handleUpdateStoreStatus(store.id!, 'suspended')} className="p-2 text-amber-400 hover:bg-amber-500/20 rounded-lg transition-colors" title="Suspend Store">
                             <XCircle className="h-5 w-5" />
                           </button>
                         )}
                         {store.status === 'suspended' && (
-                          <button onClick={() => handleUpdateStoreStatus(store.id!, 'approved')} className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Approve Store">
+                          <button onClick={() => handleUpdateStoreStatus(store.id!, 'approved')} className="p-2 text-emerald-400 hover:bg-emerald-500/20 rounded-lg transition-colors" title="Approve Store">
                             <CheckCircle className="h-5 w-5" />
                           </button>
                         )}
-                        <button onClick={() => handleDeleteStore(store.id!)} className="p-2 text-rose-600 hover:bg-rose-50 rounded-lg transition-colors" title="Delete Store">
+                        <button onClick={() => handleDeleteStore(store.id!)} className="p-2 text-rose-400 hover:bg-rose-500/20 rounded-lg transition-colors" title="Delete Store">
                           <Trash2 className="h-5 w-5" />
                         </button>
                       </div>
@@ -462,42 +464,42 @@ export const AdminDashboard = () => {
             </ul>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div className="px-6 py-5 border-b border-gray-100 bg-gray-50/50">
-              <h3 className="text-lg font-bold text-gray-900">User Management</h3>
+          <div className="glass-panel rounded-2xl overflow-hidden">
+            <div className="px-6 py-5 border-b border-white/10 bg-white/5">
+              <h3 className="text-lg font-bold text-white">User Management</h3>
             </div>
-            <ul className="divide-y divide-gray-100 max-h-[500px] overflow-y-auto">
+            <ul className="divide-y divide-white/10 max-h-[500px] overflow-y-auto custom-scrollbar">
               {users.map(user => {
                 const isOnline = user.isOnline && user.lastSeen && (new Date().getTime() - user.lastSeen.toDate().getTime() < 5 * 60 * 1000);
                 return (
-                  <li key={user.uid} className="px-6 py-5 hover:bg-gray-50 transition-colors">
+                  <li key={user.uid} className="px-6 py-5 hover:bg-white/5 transition-colors">
                     <div className="flex items-center justify-between">
                       <div className="flex-1 min-w-0 flex items-center">
                         <div className="relative">
-                          <div className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center border border-gray-200">
-                            <span className="text-sm font-bold text-gray-500">{user.name.charAt(0)}</span>
+                          <div className="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                            <span className="text-sm font-bold text-gray-400">{user.name.charAt(0)}</span>
                           </div>
-                          <div className={`absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-white ${isOnline ? 'bg-emerald-500' : 'bg-gray-300'}`} />
+                          <div className={`absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-[#030014] ${isOnline ? 'bg-emerald-500' : 'bg-gray-500'}`} />
                         </div>
                         <div className="ml-4">
                           <div className="flex items-center gap-2">
-                            <p className="text-sm font-bold text-gray-900 truncate">{user.name}</p>
-                            <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-md ${
-                              user.role === 'admin' ? 'bg-purple-100 text-purple-700' :
-                              user.role === 'vendor' ? 'bg-blue-100 text-blue-700' :
-                              'bg-gray-100 text-gray-600'
+                            <p className="text-sm font-bold text-white truncate">{user.name}</p>
+                            <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-md border backdrop-blur-md ${
+                              user.role === 'admin' ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' :
+                              user.role === 'vendor' ? 'bg-blue-500/20 text-blue-300 border-blue-500/30' :
+                              'bg-gray-500/20 text-gray-300 border-gray-500/30'
                             }`}>
                               {user.role === 'vendor' ? 'Seller' : user.role === 'customer' ? 'Buyer' : user.role}
                             </span>
                           </div>
-                          <p className="text-xs text-gray-500 mt-0.5">{user.email}</p>
+                          <p className="text-xs text-gray-400 mt-0.5">{user.email}</p>
                         </div>
                       </div>
                       <div className="flex items-center">
                         <select
                           value={user.role}
                           onChange={(e) => handleUpdateUserRole(user.uid, e.target.value as User['role'])}
-                          className="text-xs font-bold border-none bg-gray-100 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500/20 outline-none"
+                          className="text-xs font-bold border border-white/10 bg-white/5 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-brand-sky/50 outline-none [&>option]:bg-gray-900"
                         >
                           <option value="customer">Customer</option>
                           <option value="vendor">Vendor</option>
@@ -513,14 +515,14 @@ export const AdminDashboard = () => {
         </div>
       </div>
 
-      <div className="mt-8 bg-white shadow overflow-hidden sm:rounded-md">
-        <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900 flex items-center">
+      <div className="mt-8 glass-panel overflow-hidden sm:rounded-md">
+        <div className="px-4 py-5 border-b border-white/10 sm:px-6">
+          <h3 className="text-lg leading-6 font-medium text-white flex items-center">
             <Tag className="mr-2 h-5 w-5 text-gray-400" />
             All Coupons
           </h3>
         </div>
-        <ul className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
+        <ul className="divide-y divide-white/10 max-h-96 overflow-y-auto custom-scrollbar">
           {coupons.map(coupon => {
             const store = stores.find(s => s.id === coupon.storeId);
             return (
@@ -528,12 +530,12 @@ export const AdminDashboard = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center">
-                      <p className="text-sm font-medium text-indigo-600 truncate mr-2">{coupon.code}</p>
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${coupon.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                      <p className="text-sm font-medium text-brand-sky truncate mr-2">{coupon.code}</p>
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium backdrop-blur-md border ${coupon.active ? 'bg-green-500/20 text-green-300 border-green-500/30' : 'bg-red-500/20 text-red-300 border-red-500/30'}`}>
                         {coupon.active ? 'Active' : 'Inactive'}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-500 truncate mt-1">
+                    <p className="text-sm text-gray-400 truncate mt-1">
                       Store: {store ? store.name : 'Unknown Store'} | 
                       Discount: {coupon.type === 'percentage' ? `${coupon.amount}%` : `$${coupon.amount.toFixed(2)}`} | 
                       Min Purchase: ${coupon.minPurchase.toFixed(2)} | 
@@ -543,11 +545,11 @@ export const AdminDashboard = () => {
                   <div className="flex items-center space-x-2">
                     <button 
                       onClick={() => toggleCouponStatus(coupon)} 
-                      className={`px-3 py-1 rounded-md text-sm font-medium ${coupon.active ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'bg-green-100 text-green-700 hover:bg-green-200'}`}
+                      className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${coupon.active ? 'bg-white/10 text-gray-300 hover:bg-white/20' : 'bg-green-500/20 text-green-300 hover:bg-green-500/30'}`}
                     >
                       {coupon.active ? 'Deactivate' : 'Activate'}
                     </button>
-                    <button onClick={() => handleDeleteCoupon(coupon.id!)} className="p-2 text-red-600 hover:bg-red-50 rounded-full">
+                    <button onClick={() => handleDeleteCoupon(coupon.id!)} className="p-2 text-brand-red hover:bg-brand-red/20 rounded-full transition-colors">
                       <Trash2 className="h-5 w-5" />
                     </button>
                   </div>
@@ -556,15 +558,15 @@ export const AdminDashboard = () => {
             );
           })}
           {coupons.length === 0 && (
-            <li className="px-4 py-8 text-center text-gray-500">No coupons found.</li>
+            <li className="px-4 py-8 text-center text-gray-400">No coupons found.</li>
           )}
         </ul>
       </div>
-      <div className="bg-white shadow overflow-hidden sm:rounded-md mt-8">
-        <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">Payout Requests</h3>
+      <div className="glass-panel overflow-hidden sm:rounded-md mt-8">
+        <div className="px-4 py-5 border-b border-white/10 sm:px-6">
+          <h3 className="text-lg leading-6 font-medium text-white">Payout Requests</h3>
         </div>
-        <ul className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
+        <ul className="divide-y divide-white/10 max-h-96 overflow-y-auto custom-scrollbar">
           {payouts.sort((a, b) => b.createdAt?.toDate() - a.createdAt?.toDate()).map(payout => {
             const store = stores.find(s => s.id === payout.storeId);
             return (
@@ -572,37 +574,37 @@ export const AdminDashboard = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
-                      <p className="text-sm font-medium text-indigo-600 truncate">
+                      <p className="text-sm font-medium text-brand-sky truncate">
                         {store ? store.name : 'Unknown Store'}
                       </p>
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize
-                        ${payout.status === 'completed' ? 'bg-green-100 text-green-800' : 
-                          payout.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
-                          payout.status === 'processing' ? 'bg-blue-100 text-blue-800' : 
-                          'bg-red-100 text-red-800'}`}>
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize backdrop-blur-md border
+                        ${payout.status === 'completed' ? 'bg-green-500/20 text-green-300 border-green-500/30' : 
+                          payout.status === 'pending' ? 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' : 
+                          payout.status === 'processing' ? 'bg-blue-500/20 text-blue-300 border-blue-500/30' : 
+                          'bg-red-500/20 text-red-300 border-red-500/30'}`}>
                         {payout.status}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-500 truncate mt-1">
+                    <p className="text-sm text-gray-400 truncate mt-1">
                       Amount: ${payout.amount.toFixed(2)} | Method: {payout.method} | Details: {payout.details}
                     </p>
-                    <p className="text-xs text-gray-400 mt-1">
+                    <p className="text-xs text-gray-500 mt-1">
                       Requested: {new Date(payout.createdAt?.toDate ? payout.createdAt.toDate() : payout.createdAt).toLocaleString()}
                     </p>
                   </div>
                   <div className="ml-4 flex items-center space-x-2">
                     {payout.status === 'pending' && (
-                      <button onClick={() => handleUpdatePayoutStatus(payout.id!, 'processing')} className="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-sm font-medium hover:bg-blue-200">
+                      <button onClick={() => handleUpdatePayoutStatus(payout.id!, 'processing')} className="px-3 py-1 bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-md text-sm font-medium hover:bg-blue-500/30 transition-colors">
                         Process
                       </button>
                     )}
                     {payout.status === 'processing' && (
-                      <button onClick={() => handleUpdatePayoutStatus(payout.id!, 'completed')} className="px-3 py-1 bg-green-100 text-green-700 rounded-md text-sm font-medium hover:bg-green-200">
+                      <button onClick={() => handleUpdatePayoutStatus(payout.id!, 'completed')} className="px-3 py-1 bg-green-500/20 text-green-300 border border-green-500/30 rounded-md text-sm font-medium hover:bg-green-500/30 transition-colors">
                         Complete
                       </button>
                     )}
                     {(payout.status === 'pending' || payout.status === 'processing') && (
-                      <button onClick={() => handleUpdatePayoutStatus(payout.id!, 'rejected')} className="px-3 py-1 bg-red-100 text-red-700 rounded-md text-sm font-medium hover:bg-red-200">
+                      <button onClick={() => handleUpdatePayoutStatus(payout.id!, 'rejected')} className="px-3 py-1 bg-red-500/20 text-red-300 border border-red-500/30 rounded-md text-sm font-medium hover:bg-red-500/30 transition-colors">
                         Reject
                       </button>
                     )}
@@ -612,56 +614,56 @@ export const AdminDashboard = () => {
             );
           })}
           {payouts.length === 0 && (
-            <li className="px-4 py-8 text-center text-gray-500">No payout requests found.</li>
+            <li className="px-4 py-8 text-center text-gray-400">No payout requests found.</li>
           )}
         </ul>
       </div>
-      <div className="bg-white shadow overflow-hidden sm:rounded-md mt-8">
-        <div className="px-4 py-5 border-b border-gray-200 sm:px-6 flex justify-between items-center">
-          <h3 className="text-lg leading-6 font-medium text-gray-900 flex items-center">
+      <div className="glass-panel overflow-hidden sm:rounded-md mt-8">
+        <div className="px-4 py-5 border-b border-white/10 sm:px-6 flex justify-between items-center">
+          <h3 className="text-lg leading-6 font-medium text-white flex items-center">
             <ImageIcon className="mr-2 h-5 w-5 text-gray-400" />
             Banner Management
           </h3>
           <button
             onClick={() => setIsAddingBanner(!isAddingBanner)}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-md text-sm font-medium hover:bg-indigo-700"
+            className="px-4 py-2 bg-gradient-to-r from-brand-sky to-brand-purple text-white rounded-md text-sm font-medium hover:opacity-90 shadow-[0_0_15px_rgba(168,85,247,0.3)] transition-all"
           >
             {isAddingBanner ? 'Cancel' : 'Add Banner'}
           </button>
         </div>
         
         {isAddingBanner && (
-          <div className="p-6 border-b border-gray-200 bg-gray-50">
+          <div className="p-6 border-b border-white/10 bg-white/5">
             <form onSubmit={handleAddBanner} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Image URL</label>
+                <label className="block text-sm font-medium text-gray-300">Image URL</label>
                 <input
                   type="url"
                   required
                   value={newBanner.imageUrl}
                   onChange={(e) => setNewBanner({ ...newBanner, imageUrl: e.target.value })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full bg-white/5 border border-white/10 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-brand-sky focus:border-brand-sky sm:text-sm placeholder-gray-500"
                   placeholder="https://example.com/image.jpg"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Link URL (Optional)</label>
+                <label className="block text-sm font-medium text-gray-300">Link URL (Optional)</label>
                 <input
                   type="url"
                   value={newBanner.link}
                   onChange={(e) => setNewBanner({ ...newBanner, link: e.target.value })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full bg-white/5 border border-white/10 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-brand-sky focus:border-brand-sky sm:text-sm placeholder-gray-500"
                   placeholder="https://example.com/promo"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Display Order</label>
+                <label className="block text-sm font-medium text-gray-300">Display Order</label>
                 <input
                   type="number"
                   required
                   value={newBanner.order}
                   onChange={(e) => setNewBanner({ ...newBanner, order: parseInt(e.target.value) })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full bg-white/5 border border-white/10 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-brand-sky focus:border-brand-sky sm:text-sm"
                 />
               </div>
               <div className="flex items-center">
@@ -670,15 +672,15 @@ export const AdminDashboard = () => {
                   id="active"
                   checked={newBanner.active}
                   onChange={(e) => setNewBanner({ ...newBanner, active: e.target.checked })}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-brand-sky focus:ring-brand-sky border-white/10 bg-white/5 rounded"
                 />
-                <label htmlFor="active" className="ml-2 block text-sm text-gray-900">
+                <label htmlFor="active" className="ml-2 block text-sm text-gray-300">
                   Active
                 </label>
               </div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-[0_0_15px_rgba(168,85,247,0.3)] text-sm font-medium text-white bg-gradient-to-r from-brand-sky to-brand-purple hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-sky transition-all"
               >
                 Save Banner
               </button>
@@ -686,16 +688,16 @@ export const AdminDashboard = () => {
           </div>
         )}
 
-        <ul className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
+        <ul className="divide-y divide-white/10 max-h-96 overflow-y-auto custom-scrollbar">
           {banners.sort((a, b) => a.order - b.order).map(banner => (
             <li key={banner.id} className="px-4 py-4 sm:px-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center flex-1 min-w-0">
-                  <img src={banner.imageUrl} alt="Banner" className="h-16 w-32 object-cover rounded-md mr-4 border border-gray-200" referrerPolicy="no-referrer" />
+                  <img src={banner.imageUrl} alt="Banner" className="h-16 w-32 object-cover rounded-md mr-4 border border-white/10" referrerPolicy="no-referrer" />
                   <div>
-                    <p className="text-sm font-medium text-gray-900">Order: {banner.order}</p>
-                    {banner.link && <p className="text-sm text-indigo-600 truncate">{banner.link}</p>}
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium mt-1 ${banner.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                    <p className="text-sm font-medium text-white">Order: {banner.order}</p>
+                    {banner.link && <p className="text-sm text-brand-sky truncate">{banner.link}</p>}
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium mt-1 backdrop-blur-md border ${banner.active ? 'bg-green-500/20 text-green-300 border-green-500/30' : 'bg-red-500/20 text-red-300 border-red-500/30'}`}>
                       {banner.active ? 'Active' : 'Inactive'}
                     </span>
                   </div>
@@ -703,11 +705,11 @@ export const AdminDashboard = () => {
                 <div className="flex items-center space-x-2">
                   <button 
                     onClick={() => toggleBannerStatus(banner)} 
-                    className={`px-3 py-1 rounded-md text-sm font-medium ${banner.active ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'bg-green-100 text-green-700 hover:bg-green-200'}`}
+                    className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${banner.active ? 'bg-white/10 text-gray-300 hover:bg-white/20' : 'bg-green-500/20 text-green-300 hover:bg-green-500/30'}`}
                   >
                     {banner.active ? 'Deactivate' : 'Activate'}
                   </button>
-                  <button onClick={() => handleDeleteBanner(banner.id!)} className="p-2 text-red-600 hover:bg-red-50 rounded-full">
+                  <button onClick={() => handleDeleteBanner(banner.id!)} className="p-2 text-brand-red hover:bg-brand-red/20 rounded-full transition-colors">
                     <Trash2 className="h-5 w-5" />
                   </button>
                 </div>
@@ -715,14 +717,14 @@ export const AdminDashboard = () => {
             </li>
           ))}
           {banners.length === 0 && (
-            <li className="px-4 py-8 text-center text-gray-500">No banners found.</li>
+            <li className="px-4 py-8 text-center text-gray-400">No banners found.</li>
           )}
         </ul>
       </div>
 
-      <div className="bg-white shadow overflow-hidden sm:rounded-md mt-8">
-        <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900 flex items-center">
+      <div className="glass-panel overflow-hidden sm:rounded-md mt-8">
+        <div className="px-4 py-5 border-b border-white/10 sm:px-6">
+          <h3 className="text-lg leading-6 font-medium text-white flex items-center">
             <Activity className="mr-2 h-5 w-5 text-gray-400" />
             Platform Settings
           </h3>
@@ -731,23 +733,23 @@ export const AdminDashboard = () => {
           <form onSubmit={handleUpdateSettings} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Site Name</label>
+                <label className="block text-sm font-medium text-gray-300">Site Name</label>
                 <input
                   type="text"
                   required
                   value={settings?.siteName || ''}
                   onChange={(e) => setSettings({ ...settings, siteName: e.target.value })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full bg-white/5 border border-white/10 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-brand-sky focus:border-brand-sky sm:text-sm"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Support Email</label>
+                <label className="block text-sm font-medium text-gray-300">Support Email</label>
                 <input
                   type="email"
                   required
                   value={settings?.supportEmail || ''}
                   onChange={(e) => setSettings({ ...settings, supportEmail: e.target.value })}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full bg-white/5 border border-white/10 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-brand-sky focus:border-brand-sky sm:text-sm"
                 />
               </div>
             </div>
@@ -757,16 +759,16 @@ export const AdminDashboard = () => {
                 id="maintenanceMode"
                 checked={settings?.maintenanceMode || false}
                 onChange={(e) => setSettings({ ...settings, maintenanceMode: e.target.checked })}
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                className="h-4 w-4 text-brand-sky focus:ring-brand-sky border-white/10 bg-white/5 rounded"
               />
-              <label htmlFor="maintenanceMode" className="ml-2 block text-sm text-gray-900">
+              <label htmlFor="maintenanceMode" className="ml-2 block text-sm text-gray-300">
                 Maintenance Mode (Disable customer access)
               </label>
             </div>
             <div className="flex justify-end">
               <button
                 type="submit"
-                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-[0_0_15px_rgba(168,85,247,0.3)] text-sm font-medium rounded-md text-white bg-gradient-to-r from-brand-sky to-brand-purple hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-sky transition-all"
               >
                 Save Settings
               </button>

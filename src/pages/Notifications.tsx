@@ -53,20 +53,20 @@ export const Notifications = () => {
   };
 
   if (loading) {
-    return <div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div></div>;
+    return <div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-sky"></div></div>;
   }
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-extrabold text-gray-900 flex items-center">
-          <Bell className="mr-3 h-8 w-8 text-indigo-600" />
+        <h1 className="text-3xl font-extrabold text-white flex items-center text-gradient">
+          <Bell className="mr-3 h-8 w-8 text-brand-sky" />
           Notifications
         </h1>
         {notifications.some(n => !n.read) && (
           <button 
             onClick={markAllAsRead}
-            className="text-sm font-medium text-indigo-600 hover:text-indigo-500 flex items-center"
+            className="text-sm font-medium text-brand-sky hover:text-brand-sky/80 flex items-center transition-colors"
           >
             <CheckCircle className="mr-1 h-4 w-4" />
             Mark all as read
@@ -74,19 +74,19 @@ export const Notifications = () => {
         )}
       </div>
 
-      <div className="bg-white shadow overflow-hidden sm:rounded-md">
-        <ul className="divide-y divide-gray-200">
+      <div className="glass-panel overflow-hidden sm:rounded-md">
+        <ul className="divide-y divide-white/10">
           {notifications.map(notification => (
-            <li key={notification.id} className={`p-4 sm:px-6 ${!notification.read ? 'bg-indigo-50' : ''}`}>
+            <li key={notification.id} className={`p-4 sm:px-6 ${!notification.read ? 'bg-white/5' : ''}`}>
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
-                  <p className={`text-sm font-medium ${!notification.read ? 'text-indigo-900' : 'text-gray-900'} truncate`}>
+                  <p className={`text-sm font-medium ${!notification.read ? 'text-brand-sky' : 'text-gray-300'} truncate`}>
                     {notification.title}
                   </p>
-                  <p className={`text-sm ${!notification.read ? 'text-indigo-700' : 'text-gray-500'} mt-1`}>
+                  <p className={`text-sm ${!notification.read ? 'text-gray-300' : 'text-gray-400'} mt-1`}>
                     {notification.message}
                   </p>
-                  <p className="text-xs text-gray-400 mt-2">
+                  <p className="text-xs text-gray-500 mt-2">
                     {new Date(notification.createdAt?.toDate ? notification.createdAt.toDate() : notification.createdAt).toLocaleString()}
                   </p>
                 </div>
@@ -94,7 +94,7 @@ export const Notifications = () => {
                   {!notification.read && (
                     <button 
                       onClick={() => markAsRead(notification.id!)}
-                      className="text-xs font-medium text-indigo-600 hover:text-indigo-500"
+                      className="text-xs font-medium text-brand-sky hover:text-brand-sky/80 transition-colors"
                     >
                       Mark as read
                     </button>
@@ -102,7 +102,7 @@ export const Notifications = () => {
                   {notification.link && (
                     <Link 
                       to={notification.link}
-                      className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+                      className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md shadow-[0_0_10px_rgba(168,85,247,0.3)] text-white bg-gradient-to-r from-brand-sky to-brand-purple hover:opacity-90 transition-all"
                     >
                       View
                     </Link>
@@ -112,8 +112,8 @@ export const Notifications = () => {
             </li>
           ))}
           {notifications.length === 0 && (
-            <li className="px-4 py-12 text-center text-gray-500">
-              <Bell className="mx-auto h-12 w-12 text-gray-300 mb-4" />
+            <li className="px-4 py-12 text-center text-gray-400">
+              <Bell className="mx-auto h-12 w-12 text-gray-500 mb-4" />
               <p>You have no notifications.</p>
             </li>
           )}

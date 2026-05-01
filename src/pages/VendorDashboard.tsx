@@ -422,12 +422,12 @@ export const VendorDashboard = () => {
   if (!store) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-        <StoreIcon className="mx-auto h-24 w-24 text-gray-300 mb-6" />
-        <h2 className="text-3xl font-extrabold text-gray-900 mb-4">You don't have a store yet</h2>
-        <p className="text-lg text-gray-500 mb-8">Create your store to start selling products on Online Mall.</p>
+        <StoreIcon className="mx-auto h-24 w-24 text-gray-600 mb-6 drop-shadow-[0_0_15px_rgba(168,85,247,0.3)]" />
+        <h2 className="text-3xl font-extrabold text-gray-100 mb-4">You don't have a store yet</h2>
+        <p className="text-lg text-gray-400 mb-8">Create your store to start selling products on Online Mall.</p>
         <button
           onClick={handleCreateStore}
-          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-[0_0_15px_rgba(168,85,247,0.3)] text-white bg-gradient-to-r from-sky-500 to-purple-600 hover:from-sky-400 hover:to-purple-500 transition-all"
         >
           Create Store
         </button>
@@ -438,13 +438,13 @@ export const VendorDashboard = () => {
   if (store.status === 'pending') {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8 inline-block text-left">
+        <div className="bg-amber-500/20 border-l-4 border-amber-400 p-4 mb-8 inline-block text-left backdrop-blur-md">
           <div className="flex">
             <div className="flex-shrink-0">
-              <StoreIcon className="h-5 w-5 text-yellow-400" />
+              <StoreIcon className="h-5 w-5 text-amber-400" />
             </div>
             <div className="ml-3">
-              <p className="text-sm text-yellow-700">
+              <p className="text-sm text-amber-200">
                 Your store is currently pending approval from an administrator. You will be able to add products once approved.
               </p>
             </div>
@@ -459,51 +459,51 @@ export const VendorDashboard = () => {
       <div className="md:flex md:items-center md:justify-between mb-8">
         <div className="flex-1 min-w-0 flex items-center">
           {store.logoUrl ? (
-            <img src={store.logoUrl} alt={store.name} className="h-12 w-12 rounded-full object-cover mr-4 border border-gray-200" />
+            <img src={store.logoUrl} alt={store.name} className="h-12 w-12 rounded-full object-cover mr-4 border border-white/10" />
           ) : (
-            <div className="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4 border border-gray-200">
-              <StoreIcon className="h-6 w-6 text-indigo-600" />
+            <div className="h-12 w-12 rounded-full bg-slate-800/50 flex items-center justify-center mr-4 border border-white/10">
+              <StoreIcon className="h-6 w-6 text-sky-400" />
             </div>
           )}
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+          <h2 className="text-2xl font-bold leading-7 text-gradient sm:text-3xl sm:truncate">
             {store.name} Dashboard
           </h2>
         </div>
       </div>
 
-      <div className="border-b border-gray-200 mb-8">
-        <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+      <div className="border-b border-white/10 mb-8">
+        <nav className="-mb-px flex space-x-8 overflow-x-auto" aria-label="Tabs">
           <button
             onClick={() => setActiveTab('products')}
-            className={`${activeTab === 'products' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center`}
+            className={`${activeTab === 'products' ? 'border-sky-500 text-sky-400' : 'border-transparent text-gray-400 hover:text-gray-200 hover:border-white/20'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center transition-colors`}
           >
             <Package className="mr-2 h-5 w-5" />
             Products
           </button>
           <button
             onClick={() => setActiveTab('orders')}
-            className={`${activeTab === 'orders' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center`}
+            className={`${activeTab === 'orders' ? 'border-sky-500 text-sky-400' : 'border-transparent text-gray-400 hover:text-gray-200 hover:border-white/20'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center transition-colors`}
           >
             <ShoppingBag className="mr-2 h-5 w-5" />
             Orders
           </button>
           <button
             onClick={() => setActiveTab('coupons')}
-            className={`${activeTab === 'coupons' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center`}
+            className={`${activeTab === 'coupons' ? 'border-sky-500 text-sky-400' : 'border-transparent text-gray-400 hover:text-gray-200 hover:border-white/20'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center transition-colors`}
           >
             <Tag className="mr-2 h-5 w-5" />
             Coupons
           </button>
           <button
             onClick={() => setActiveTab('payouts')}
-            className={`${activeTab === 'payouts' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center`}
+            className={`${activeTab === 'payouts' ? 'border-sky-500 text-sky-400' : 'border-transparent text-gray-400 hover:text-gray-200 hover:border-white/20'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center transition-colors`}
           >
             <DollarSign className="mr-2 h-5 w-5" />
             Payouts
           </button>
           <button
             onClick={() => setActiveTab('settings')}
-            className={`${activeTab === 'settings' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center`}
+            className={`${activeTab === 'settings' ? 'border-sky-500 text-sky-400' : 'border-transparent text-gray-400 hover:text-gray-200 hover:border-white/20'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center transition-colors`}
           >
             <Settings className="mr-2 h-5 w-5" />
             Store Settings
@@ -514,10 +514,10 @@ export const VendorDashboard = () => {
       {activeTab === 'products' && (
         <div>
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">Your Products</h3>
+            <h3 className="text-lg leading-6 font-medium text-gray-100">Your Products</h3>
             <button
               onClick={() => setIsAddingProduct(!isAddingProduct)}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-[0_0_15px_rgba(168,85,247,0.3)] text-white bg-gradient-to-r from-sky-500 to-purple-600 hover:from-sky-400 hover:to-purple-500 transition-all"
             >
               <Plus className="mr-2 h-5 w-5" />
               Add Product
@@ -525,87 +525,87 @@ export const VendorDashboard = () => {
           </div>
 
           {isAddingProduct && (
-            <div className="bg-gray-50 p-6 rounded-lg mb-8 border border-gray-200">
-              <h4 className="text-md font-medium mb-4">Add New Product</h4>
+            <div className="glass-panel p-6 rounded-2xl mb-8">
+              <h4 className="text-md font-medium mb-4 text-gray-100">Add New Product</h4>
               <form onSubmit={handleAddProduct} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Name</label>
-                    <input type="text" required value={newProduct.name} onChange={e => setNewProduct({...newProduct, name: e.target.value})} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                    <label className="block text-sm font-medium text-gray-300">Name</label>
+                    <input type="text" required value={newProduct.name} onChange={e => setNewProduct({...newProduct, name: e.target.value})} className="mt-1 block w-full border border-white/20 rounded-md shadow-sm py-2 px-3 bg-slate-900/50 text-gray-200 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 sm:text-sm backdrop-blur-md" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Category</label>
-                    <select required value={newProduct.category} onChange={e => setNewProduct({...newProduct, category: e.target.value})} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                      <option value="">Select a category</option>
-                      <option value="Electronics">Electronics</option>
-                      <option value="Clothing">Clothing</option>
-                      <option value="Home & Garden">Home & Garden</option>
-                      <option value="Sports">Sports</option>
-                      <option value="Toys">Toys</option>
-                      <option value="Beauty">Beauty</option>
-                      <option value="Automotive">Automotive</option>
-                      <option value="Other">Other</option>
+                    <label className="block text-sm font-medium text-gray-300">Category</label>
+                    <select required value={newProduct.category} onChange={e => setNewProduct({...newProduct, category: e.target.value})} className="mt-1 block w-full border border-white/20 rounded-md shadow-sm py-2 px-3 bg-slate-900/50 text-gray-200 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 sm:text-sm backdrop-blur-md">
+                      <option value="" className="bg-slate-900 text-gray-200">Select a category</option>
+                      <option value="Electronics" className="bg-slate-900 text-gray-200">Electronics</option>
+                      <option value="Clothing" className="bg-slate-900 text-gray-200">Clothing</option>
+                      <option value="Home & Garden" className="bg-slate-900 text-gray-200">Home & Garden</option>
+                      <option value="Sports" className="bg-slate-900 text-gray-200">Sports</option>
+                      <option value="Toys" className="bg-slate-900 text-gray-200">Toys</option>
+                      <option value="Beauty" className="bg-slate-900 text-gray-200">Beauty</option>
+                      <option value="Automotive" className="bg-slate-900 text-gray-200">Automotive</option>
+                      <option value="Other" className="bg-slate-900 text-gray-200">Other</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Price ($)</label>
-                    <input type="number" step="0.01" required value={newProduct.price} onChange={e => setNewProduct({...newProduct, price: parseFloat(e.target.value)})} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                    <label className="block text-sm font-medium text-gray-300">Price ($)</label>
+                    <input type="number" step="0.01" required value={newProduct.price} onChange={e => setNewProduct({...newProduct, price: parseFloat(e.target.value)})} className="mt-1 block w-full border border-white/20 rounded-md shadow-sm py-2 px-3 bg-slate-900/50 text-gray-200 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 sm:text-sm backdrop-blur-md" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Inventory</label>
-                    <input type="number" required value={newProduct.inventory} onChange={e => setNewProduct({...newProduct, inventory: parseInt(e.target.value)})} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                    <label className="block text-sm font-medium text-gray-300">Inventory</label>
+                    <input type="number" required value={newProduct.inventory} onChange={e => setNewProduct({...newProduct, inventory: parseInt(e.target.value)})} className="mt-1 block w-full border border-white/20 rounded-md shadow-sm py-2 px-3 bg-slate-900/50 text-gray-200 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 sm:text-sm backdrop-blur-md" />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700">Image URL or Upload</label>
+                    <label className="block text-sm font-medium text-gray-300">Image URL or Upload</label>
                     <div className="mt-1 flex items-center space-x-4">
-                      <input type="text" value={newProduct.imageUrl} onChange={e => setNewProduct({...newProduct, imageUrl: e.target.value})} placeholder="https://..." className="flex-1 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                      <input type="text" value={newProduct.imageUrl} onChange={e => setNewProduct({...newProduct, imageUrl: e.target.value})} placeholder="https://..." className="flex-1 border border-white/20 rounded-md shadow-sm py-2 px-3 bg-slate-900/50 text-gray-200 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 sm:text-sm backdrop-blur-md" />
                       <span className="text-gray-500">or</span>
-                      <button type="button" onClick={() => productInputRef.current?.click()} className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      <button type="button" onClick={() => productInputRef.current?.click()} className="inline-flex items-center px-3 py-2 border border-white/20 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-200 bg-slate-800/50 hover:bg-slate-700/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 backdrop-blur-md transition-colors">
                         <ImageIcon className="h-4 w-4 mr-2" /> Upload
                       </button>
                       <input type="file" ref={productInputRef} onChange={(e) => handleImageUpload(e, 'productImageUrl')} accept="image/*" className="hidden" />
                     </div>
                     {newProduct.imageUrl && (
                       <div className="mt-2">
-                        <img src={newProduct.imageUrl} alt="Preview" className="h-20 w-20 object-cover rounded-md" />
+                        <img src={newProduct.imageUrl} alt="Preview" className="h-20 w-20 object-cover rounded-md border border-white/10" />
                       </div>
                     )}
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700">Description</label>
-                    <textarea rows={3} required value={newProduct.description} onChange={e => setNewProduct({...newProduct, description: e.target.value})} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                    <label className="block text-sm font-medium text-gray-300">Description</label>
+                    <textarea rows={3} required value={newProduct.description} onChange={e => setNewProduct({...newProduct, description: e.target.value})} className="mt-1 block w-full border border-white/20 rounded-md shadow-sm py-2 px-3 bg-slate-900/50 text-gray-200 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 sm:text-sm backdrop-blur-md" />
                   </div>
                 </div>
                 <div className="flex justify-end space-x-3">
-                  <button type="button" onClick={() => setIsAddingProduct(false)} className="px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Cancel</button>
-                  <button type="submit" className="px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">Save Product</button>
+                  <button type="button" onClick={() => setIsAddingProduct(false)} className="px-4 py-2 border border-white/20 shadow-sm text-sm font-medium rounded-md text-gray-300 bg-slate-800/50 hover:bg-slate-700/50 backdrop-blur-md transition-colors">Cancel</button>
+                  <button type="submit" className="px-4 py-2 border border-transparent shadow-[0_0_15px_rgba(168,85,247,0.3)] text-sm font-medium rounded-md text-white bg-gradient-to-r from-sky-500 to-purple-600 hover:from-sky-400 hover:to-purple-500 transition-all">Save Product</button>
                 </div>
               </form>
             </div>
           )}
 
-          <div className="bg-white shadow overflow-hidden sm:rounded-md">
-            <ul className="divide-y divide-gray-200">
+          <div className="glass-card overflow-hidden sm:rounded-2xl">
+            <ul className="divide-y divide-white/10">
               {products.map(product => (
-                <li key={product.id}>
+                <li key={product.id} className="hover:bg-slate-800/30 transition-colors">
                   <div className="px-4 py-4 flex items-center sm:px-6">
                     <div className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                       <div className="flex items-center">
                         {product.imageUrl ? (
-                          <img src={product.imageUrl} alt={product.name} className="h-12 w-12 rounded-md object-cover mr-4 border border-gray-200" />
+                          <img src={product.imageUrl} alt={product.name} className="h-12 w-12 rounded-md object-cover mr-4 border border-white/10" />
                         ) : (
-                          <div className="h-12 w-12 rounded-md bg-gray-100 flex items-center justify-center mr-4 border border-gray-200">
-                            <Package className="h-6 w-6 text-gray-400" />
+                          <div className="h-12 w-12 rounded-md bg-slate-800/50 flex items-center justify-center mr-4 border border-white/10">
+                            <Package className="h-6 w-6 text-gray-500" />
                           </div>
                         )}
                         <div className="truncate">
                           <div className="flex text-sm">
-                            <p className="font-medium text-indigo-600 truncate">{product.name}</p>
-                            <p className="ml-1 flex-shrink-0 font-normal text-gray-500">in {product.category}</p>
+                            <p className="font-medium text-sky-400 truncate">{product.name}</p>
+                            <p className="ml-1 flex-shrink-0 font-normal text-gray-400">in {product.category}</p>
                           </div>
                           <div className="mt-2 flex">
-                            <div className="flex items-center text-sm text-gray-500">
-                              <span className="mr-4">${product.price.toFixed(2)}</span>
+                            <div className="flex items-center text-sm text-gray-400">
+                              <span className="mr-4 text-gray-200">${product.price.toFixed(2)}</span>
                               <span>Stock: {product.inventory}</span>
                             </div>
                           </div>
@@ -613,7 +613,7 @@ export const VendorDashboard = () => {
                       </div>
                     </div>
                     <div className="ml-5 flex-shrink-0 flex space-x-2">
-                      <button onClick={() => handleDeleteProduct(product.id!)} className="p-2 text-red-600 hover:bg-red-50 rounded-full">
+                      <button onClick={() => handleDeleteProduct(product.id!)} className="p-2 text-rose-400 hover:bg-rose-500/20 rounded-full transition-colors">
                         <Trash2 className="h-5 w-5" />
                       </button>
                     </div>
@@ -630,21 +630,21 @@ export const VendorDashboard = () => {
 
       {activeTab === 'orders' && (
         <div>
-          <h3 className="text-lg leading-6 font-medium text-gray-900 mb-6">Store Orders</h3>
-          <div className="bg-white shadow overflow-hidden sm:rounded-md">
-            <ul className="divide-y divide-gray-200">
+          <h3 className="text-lg leading-6 font-medium text-white mb-6 text-gradient">Store Orders</h3>
+          <div className="glass-panel overflow-hidden sm:rounded-md">
+            <ul className="divide-y divide-white/10">
               {orders.map(order => (
                 <li key={order.id} className="p-4 sm:px-6">
                   <div className="flex items-center justify-between mb-4">
                     <div>
-                      <p className="text-sm font-medium text-gray-900">Order #{order.id?.slice(-6).toUpperCase()}</p>
-                      <p className="text-sm text-gray-500">{new Date(order.createdAt).toLocaleDateString()}</p>
+                      <p className="text-sm font-medium text-white">Order #{order.id?.slice(-6).toUpperCase()}</p>
+                      <p className="text-sm text-gray-400">{new Date(order.createdAt).toLocaleDateString()}</p>
                     </div>
                     <div className="flex items-center space-x-2">
                       <select
                         value={order.status}
                         onChange={(e) => updateOrderStatus(order.id!, e.target.value as Order['status'])}
-                        className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                        className="block w-full pl-3 pr-10 py-2 text-base bg-white/5 border-white/10 text-white focus:outline-none focus:ring-brand-sky focus:border-brand-sky sm:text-sm rounded-md [&>option]:bg-gray-900"
                       >
                         <option value="pending">Pending</option>
                         <option value="processing">Processing</option>
@@ -654,24 +654,24 @@ export const VendorDashboard = () => {
                       </select>
                     </div>
                   </div>
-                  <div className="border-t border-gray-200 pt-4">
-                    <ul className="divide-y divide-gray-100">
+                  <div className="border-t border-white/10 pt-4">
+                    <ul className="divide-y divide-white/5">
                       {order.items.map((item, idx) => (
                         <li key={idx} className="py-2 flex justify-between">
-                          <span className="text-sm text-gray-600">{item.name} x{item.quantity}</span>
-                          <span className="text-sm font-medium text-gray-900">${(item.price * item.quantity).toFixed(2)}</span>
+                          <span className="text-sm text-gray-300">{item.name} x{item.quantity}</span>
+                          <span className="text-sm font-medium text-white">${(item.price * item.quantity).toFixed(2)}</span>
                         </li>
                       ))}
                     </ul>
-                    <div className="mt-4 flex justify-between font-bold text-gray-900">
+                    <div className="mt-4 flex justify-between font-bold text-white">
                       <span>Total</span>
-                      <span>${order.total.toFixed(2)}</span>
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-sky to-brand-purple">${order.total.toFixed(2)}</span>
                     </div>
                   </div>
                 </li>
               ))}
               {orders.length === 0 && (
-                <li className="px-4 py-8 text-center text-gray-500">No orders yet.</li>
+                <li className="px-4 py-8 text-center text-gray-400">No orders yet.</li>
               )}
             </ul>
           </div>
@@ -681,10 +681,10 @@ export const VendorDashboard = () => {
       {activeTab === 'coupons' && (
         <div>
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">Your Coupons</h3>
+            <h3 className="text-lg leading-6 font-medium text-white text-gradient">Your Coupons</h3>
             <button
               onClick={() => setIsAddingCoupon(!isAddingCoupon)}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-[0_0_15px_rgba(168,85,247,0.3)] text-white bg-gradient-to-r from-brand-sky to-brand-purple hover:opacity-90 transition-opacity"
             >
               <Plus className="mr-2 h-5 w-5" />
               Create Coupon
@@ -692,58 +692,58 @@ export const VendorDashboard = () => {
           </div>
 
           {isAddingCoupon && (
-            <div className="bg-gray-50 p-6 rounded-lg mb-8 border border-gray-200">
-              <h4 className="text-md font-medium mb-4">Create New Coupon</h4>
-              {couponError && <p className="text-sm text-red-600 mb-4">{couponError}</p>}
+            <div className="glass-panel p-6 rounded-lg mb-8">
+              <h4 className="text-md font-medium mb-4 text-white">Create New Coupon</h4>
+              {couponError && <p className="text-sm text-brand-red mb-4">{couponError}</p>}
               <form onSubmit={handleAddCoupon} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Code</label>
-                    <input type="text" required value={newCoupon.code} onChange={e => setNewCoupon({...newCoupon, code: e.target.value})} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm uppercase" placeholder="SUMMER20" />
+                    <label className="block text-sm font-medium text-gray-300">Code</label>
+                    <input type="text" required value={newCoupon.code} onChange={e => setNewCoupon({...newCoupon, code: e.target.value})} className="mt-1 block w-full bg-white/5 border border-white/10 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-brand-sky focus:border-brand-sky sm:text-sm uppercase placeholder-gray-500" placeholder="SUMMER20" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Type</label>
-                    <select value={newCoupon.type} onChange={e => setNewCoupon({...newCoupon, type: e.target.value as 'percentage' | 'fixed'})} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <label className="block text-sm font-medium text-gray-300">Type</label>
+                    <select value={newCoupon.type} onChange={e => setNewCoupon({...newCoupon, type: e.target.value as 'percentage' | 'fixed'})} className="mt-1 block w-full bg-white/5 border border-white/10 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-brand-sky focus:border-brand-sky sm:text-sm [&>option]:bg-gray-900">
                       <option value="percentage">Percentage (%)</option>
                       <option value="fixed">Fixed Amount ($)</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Discount Amount</label>
-                    <input type="number" step="0.01" required value={newCoupon.amount} onChange={e => setNewCoupon({...newCoupon, amount: parseFloat(e.target.value)})} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                    <label className="block text-sm font-medium text-gray-300">Discount Amount</label>
+                    <input type="number" step="0.01" required value={newCoupon.amount} onChange={e => setNewCoupon({...newCoupon, amount: parseFloat(e.target.value)})} className="mt-1 block w-full bg-white/5 border border-white/10 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-brand-sky focus:border-brand-sky sm:text-sm" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Minimum Purchase ($)</label>
-                    <input type="number" step="0.01" required value={newCoupon.minPurchase} onChange={e => setNewCoupon({...newCoupon, minPurchase: parseFloat(e.target.value)})} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                    <label className="block text-sm font-medium text-gray-300">Minimum Purchase ($)</label>
+                    <input type="number" step="0.01" required value={newCoupon.minPurchase} onChange={e => setNewCoupon({...newCoupon, minPurchase: parseFloat(e.target.value)})} className="mt-1 block w-full bg-white/5 border border-white/10 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-brand-sky focus:border-brand-sky sm:text-sm" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Expiry Date</label>
-                    <input type="date" required value={newCoupon.expiryDate as string} onChange={e => setNewCoupon({...newCoupon, expiryDate: e.target.value})} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                    <label className="block text-sm font-medium text-gray-300">Expiry Date</label>
+                    <input type="date" required value={newCoupon.expiryDate as string} onChange={e => setNewCoupon({...newCoupon, expiryDate: e.target.value})} className="mt-1 block w-full bg-white/5 border border-white/10 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-brand-sky focus:border-brand-sky sm:text-sm [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert" />
                   </div>
                 </div>
                 <div className="flex justify-end space-x-3">
-                  <button type="button" onClick={() => setIsAddingCoupon(false)} className="px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Cancel</button>
-                  <button type="submit" className="px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">Save Coupon</button>
+                  <button type="button" onClick={() => setIsAddingCoupon(false)} className="px-4 py-2 border border-white/10 shadow-sm text-sm font-medium rounded-md text-white bg-white/5 hover:bg-white/10 transition-colors">Cancel</button>
+                  <button type="submit" className="px-4 py-2 border border-transparent shadow-[0_0_15px_rgba(168,85,247,0.3)] text-sm font-medium rounded-md text-white bg-gradient-to-r from-brand-sky to-brand-purple hover:opacity-90 transition-opacity">Save Coupon</button>
                 </div>
               </form>
             </div>
           )}
 
-          <div className="bg-white shadow overflow-hidden sm:rounded-md">
-            <ul className="divide-y divide-gray-200">
+          <div className="glass-panel overflow-hidden sm:rounded-md">
+            <ul className="divide-y divide-white/10">
               {coupons.map(coupon => (
                 <li key={coupon.id}>
                   <div className="px-4 py-4 flex items-center sm:px-6">
                     <div className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                       <div className="truncate">
-                        <div className="flex text-sm">
-                          <p className="font-medium text-indigo-600 truncate text-lg">{coupon.code}</p>
-                          <span className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${coupon.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                        <div className="flex text-sm items-center">
+                          <p className="font-medium text-brand-sky truncate text-lg">{coupon.code}</p>
+                          <span className={`ml-3 px-2 inline-flex text-xs leading-5 font-semibold rounded-full backdrop-blur-md ${coupon.active ? 'bg-green-500/20 text-green-300 border border-green-500/30' : 'bg-red-500/20 text-red-300 border border-red-500/30'}`}>
                             {coupon.active ? 'Active' : 'Inactive'}
                           </span>
                         </div>
                         <div className="mt-2 flex">
-                          <div className="flex items-center text-sm text-gray-500">
+                          <div className="flex items-center text-sm text-gray-400">
                             <span className="mr-4">
                               Discount: {coupon.type === 'percentage' ? `${coupon.amount}%` : `$${coupon.amount.toFixed(2)}`}
                             </span>
@@ -756,11 +756,11 @@ export const VendorDashboard = () => {
                     <div className="ml-5 flex-shrink-0 flex space-x-2">
                       <button 
                         onClick={() => toggleCouponStatus(coupon)} 
-                        className={`px-3 py-1 rounded-md text-sm font-medium ${coupon.active ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'bg-green-100 text-green-700 hover:bg-green-200'}`}
+                        className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${coupon.active ? 'bg-white/10 text-gray-300 hover:bg-white/20' : 'bg-green-500/20 text-green-300 hover:bg-green-500/30'}`}
                       >
                         {coupon.active ? 'Deactivate' : 'Activate'}
                       </button>
-                      <button onClick={() => handleDeleteCoupon(coupon.id!)} className="p-2 text-red-600 hover:bg-red-50 rounded-full">
+                      <button onClick={() => handleDeleteCoupon(coupon.id!)} className="p-2 text-brand-red hover:bg-brand-red/20 rounded-full transition-colors">
                         <Trash2 className="h-5 w-5" />
                       </button>
                     </div>
@@ -768,7 +768,7 @@ export const VendorDashboard = () => {
                 </li>
               ))}
               {coupons.length === 0 && (
-                <li className="px-4 py-8 text-center text-gray-500">No coupons found. Create one to offer discounts!</li>
+                <li className="px-4 py-8 text-center text-gray-400">No coupons found. Create one to offer discounts!</li>
               )}
             </ul>
           </div>
@@ -776,16 +776,16 @@ export const VendorDashboard = () => {
       )}
       {activeTab === 'payouts' && (
         <div className="space-y-6">
-          <div className="bg-white shadow sm:rounded-lg p-6 flex justify-between items-center">
+          <div className="glass-panel sm:rounded-lg p-6 flex justify-between items-center">
             <div>
-              <h3 className="text-lg leading-6 font-medium text-gray-900">Available Balance</h3>
-              <p className="text-3xl font-bold text-indigo-600 mt-2">${(store.balance || 0).toFixed(2)}</p>
-              <p className="text-sm text-gray-500 mt-1">Lifetime Earnings: ${(store.totalEarned || 0).toFixed(2)}</p>
+              <h3 className="text-lg leading-6 font-medium text-white">Available Balance</h3>
+              <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-brand-sky to-brand-purple mt-2">${(store.balance || 0).toFixed(2)}</p>
+              <p className="text-sm text-gray-400 mt-1">Lifetime Earnings: ${(store.totalEarned || 0).toFixed(2)}</p>
             </div>
             <button
               onClick={() => setIsRequestingPayout(true)}
               disabled={(store.balance || 0) <= 0}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-[0_0_15px_rgba(168,85,247,0.3)] text-white bg-gradient-to-r from-brand-sky to-brand-purple hover:opacity-90 disabled:opacity-50 disabled:shadow-none transition-all"
             >
               <DollarSign className="mr-2 h-5 w-5" />
               Request Payout
@@ -793,52 +793,52 @@ export const VendorDashboard = () => {
           </div>
 
           {isRequestingPayout && (
-            <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-              <h4 className="text-md font-medium mb-4">Request Payout</h4>
+            <div className="glass-panel p-6 rounded-lg">
+              <h4 className="text-md font-medium mb-4 text-white">Request Payout</h4>
               <form onSubmit={handleRequestPayout} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Amount ($)</label>
-                    <input type="number" step="0.01" max={store.balance || 0} required value={payoutForm.amount} onChange={e => setPayoutForm({...payoutForm, amount: parseFloat(e.target.value)})} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                    <label className="block text-sm font-medium text-gray-300">Amount ($)</label>
+                    <input type="number" step="0.01" max={store.balance || 0} required value={payoutForm.amount} onChange={e => setPayoutForm({...payoutForm, amount: parseFloat(e.target.value)})} className="mt-1 block w-full bg-white/5 border border-white/10 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-brand-sky focus:border-brand-sky sm:text-sm" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Method</label>
-                    <select value={payoutForm.method} onChange={e => setPayoutForm({...payoutForm, method: e.target.value})} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <label className="block text-sm font-medium text-gray-300">Method</label>
+                    <select value={payoutForm.method} onChange={e => setPayoutForm({...payoutForm, method: e.target.value})} className="mt-1 block w-full bg-white/5 border border-white/10 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-brand-sky focus:border-brand-sky sm:text-sm [&>option]:bg-gray-900">
                       <option value="bank_transfer">Bank Transfer</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Details (Email/Account)</label>
-                    <input type="text" required value={payoutForm.details} onChange={e => setPayoutForm({...payoutForm, details: e.target.value})} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                    <label className="block text-sm font-medium text-gray-300">Details (Email/Account)</label>
+                    <input type="text" required value={payoutForm.details} onChange={e => setPayoutForm({...payoutForm, details: e.target.value})} className="mt-1 block w-full bg-white/5 border border-white/10 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-brand-sky focus:border-brand-sky sm:text-sm" />
                   </div>
                 </div>
                 <div className="flex justify-end space-x-3">
-                  <button type="button" onClick={() => setIsRequestingPayout(false)} className="px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Cancel</button>
-                  <button type="submit" className="px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">Submit Request</button>
+                  <button type="button" onClick={() => setIsRequestingPayout(false)} className="px-4 py-2 border border-white/10 shadow-sm text-sm font-medium rounded-md text-white bg-white/5 hover:bg-white/10 transition-colors">Cancel</button>
+                  <button type="submit" className="px-4 py-2 border border-transparent shadow-[0_0_15px_rgba(168,85,247,0.3)] text-sm font-medium rounded-md text-white bg-gradient-to-r from-brand-sky to-brand-purple hover:opacity-90 transition-opacity">Submit Request</button>
                 </div>
               </form>
             </div>
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white shadow overflow-hidden sm:rounded-md">
-              <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">Payout Requests</h3>
+            <div className="glass-panel overflow-hidden sm:rounded-md">
+              <div className="px-4 py-5 border-b border-white/10 sm:px-6">
+                <h3 className="text-lg leading-6 font-medium text-white">Payout Requests</h3>
               </div>
-              <ul className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
+              <ul className="divide-y divide-white/10 max-h-96 overflow-y-auto custom-scrollbar">
                 {payouts.sort((a, b) => b.createdAt?.toDate() - a.createdAt?.toDate()).map(payout => (
                   <li key={payout.id} className="px-4 py-4 sm:px-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-gray-900">${payout.amount.toFixed(2)} via {payout.method}</p>
-                        <p className="text-sm text-gray-500">{new Date(payout.createdAt?.toDate ? payout.createdAt.toDate() : payout.createdAt).toLocaleString()}</p>
+                        <p className="text-sm font-medium text-white">${payout.amount.toFixed(2)} via {payout.method}</p>
+                        <p className="text-sm text-gray-400">{new Date(payout.createdAt?.toDate ? payout.createdAt.toDate() : payout.createdAt).toLocaleString()}</p>
                       </div>
                       <div>
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                          ${payout.status === 'completed' ? 'bg-green-100 text-green-800' : 
-                            payout.status === 'rejected' ? 'bg-red-100 text-red-800' : 
-                            payout.status === 'processing' ? 'bg-blue-100 text-blue-800' : 
-                            'bg-yellow-100 text-yellow-800'}`}>
+                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full backdrop-blur-md
+                          ${payout.status === 'completed' ? 'bg-green-500/20 text-green-300 border border-green-500/30' : 
+                            payout.status === 'rejected' ? 'bg-red-500/20 text-red-300 border border-red-500/30' : 
+                            payout.status === 'processing' ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' : 
+                            'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'}`}>
                           {payout.status}
                         </span>
                       </div>
@@ -846,41 +846,41 @@ export const VendorDashboard = () => {
                   </li>
                 ))}
                 {payouts.length === 0 && (
-                  <li className="px-4 py-8 text-center text-gray-500">No payout requests yet.</li>
+                  <li className="px-4 py-8 text-center text-gray-400">No payout requests yet.</li>
                 )}
               </ul>
             </div>
 
-            <div className="bg-white shadow overflow-hidden sm:rounded-md">
-              <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">Transaction History</h3>
+            <div className="glass-panel overflow-hidden sm:rounded-md">
+              <div className="px-4 py-5 border-b border-white/10 sm:px-6">
+                <h3 className="text-lg leading-6 font-medium text-white">Transaction History</h3>
               </div>
-              <ul className="divide-y divide-gray-200 max-h-96 overflow-y-auto">
+              <ul className="divide-y divide-white/10 max-h-96 overflow-y-auto custom-scrollbar">
                 {transactions.sort((a, b) => b.createdAt?.toDate() - a.createdAt?.toDate()).map(transaction => (
                   <li key={transaction.id} className="px-4 py-4 sm:px-6">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
-                        <div className={`flex-shrink-0 h-10 w-10 rounded-full flex items-center justify-center ${transaction.type === 'earning' ? 'bg-green-100' : 'bg-red-100'}`}>
-                          {transaction.type === 'earning' ? <Plus className="h-6 w-6 text-green-600" /> : <DollarSign className="h-6 w-6 text-red-600" />}
+                        <div className={`flex-shrink-0 h-10 w-10 rounded-full flex items-center justify-center ${transaction.type === 'earning' ? 'bg-green-500/20 border border-green-500/30' : 'bg-red-500/20 border border-red-500/30'}`}>
+                          {transaction.type === 'earning' ? <Plus className="h-6 w-6 text-green-400" /> : <DollarSign className="h-6 w-6 text-red-400" />}
                         </div>
                         <div className="ml-4">
-                          <p className="text-sm font-medium text-gray-900">{transaction.description}</p>
-                          <p className="text-sm text-gray-500">{new Date(transaction.createdAt?.toDate ? transaction.createdAt.toDate() : transaction.createdAt).toLocaleString()}</p>
+                          <p className="text-sm font-medium text-white">{transaction.description}</p>
+                          <p className="text-sm text-gray-400">{new Date(transaction.createdAt?.toDate ? transaction.createdAt.toDate() : transaction.createdAt).toLocaleString()}</p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className={`text-sm font-bold ${transaction.type === 'earning' ? 'text-green-600' : 'text-red-600'}`}>
+                        <p className={`text-sm font-bold ${transaction.type === 'earning' ? 'text-green-400' : 'text-red-400'}`}>
                           {transaction.type === 'earning' ? '+' : '-'}${transaction.amount.toFixed(2)}
                         </p>
                         {transaction.commissionAmount && (
-                          <p className="text-xs text-gray-500">Commission: ${transaction.commissionAmount.toFixed(2)}</p>
+                          <p className="text-xs text-gray-400">Commission: ${transaction.commissionAmount.toFixed(2)}</p>
                         )}
                       </div>
                     </div>
                   </li>
                 ))}
                 {transactions.length === 0 && (
-                  <li className="px-4 py-8 text-center text-gray-500">No transactions yet.</li>
+                  <li className="px-4 py-8 text-center text-gray-400">No transactions yet.</li>
                 )}
               </ul>
             </div>
@@ -888,10 +888,10 @@ export const VendorDashboard = () => {
         </div>
       )}
       {activeTab === 'settings' && (
-        <div className="bg-white shadow sm:rounded-lg">
+        <div className="glass-panel sm:rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">Store Settings</h3>
+              <h3 className="text-lg leading-6 font-medium text-white">Store Settings</h3>
               {store?.id && (
                 <button
                   type="button"
@@ -900,7 +900,7 @@ export const VendorDashboard = () => {
                     navigator.clipboard.writeText(url);
                     alert('Store link copied to clipboard!');
                   }}
-                  className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-indigo-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="inline-flex items-center px-3 py-2 border border-white/10 shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-white/5 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-sky transition-colors"
                 >
                   <Share2 className="h-4 w-4 mr-2" />
                   Share Store Link
@@ -910,47 +910,47 @@ export const VendorDashboard = () => {
             <form onSubmit={handleUpdateStore} className="space-y-6">
               <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                 <div className="sm:col-span-3">
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">Store Name</label>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-300">Store Name</label>
                   <div className="mt-1">
-                    <input type="text" name="name" id="name" required value={storeForm.name || ''} onChange={e => setStoreForm({...storeForm, name: e.target.value})} className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+                    <input type="text" name="name" id="name" required value={storeForm.name || ''} onChange={e => setStoreForm({...storeForm, name: e.target.value})} className="shadow-sm focus:ring-brand-sky focus:border-brand-sky block w-full sm:text-sm bg-white/5 border-white/10 text-white rounded-md" />
                   </div>
                 </div>
 
                 <div className="sm:col-span-3">
-                  <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label>
+                  <label htmlFor="category" className="block text-sm font-medium text-gray-300">Category</label>
                   <div className="mt-1">
-                    <input type="text" name="category" id="category" required value={storeForm.category || ''} onChange={e => setStoreForm({...storeForm, category: e.target.value})} className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" />
+                    <input type="text" name="category" id="category" required value={storeForm.category || ''} onChange={e => setStoreForm({...storeForm, category: e.target.value})} className="shadow-sm focus:ring-brand-sky focus:border-brand-sky block w-full sm:text-sm bg-white/5 border-white/10 text-white rounded-md" />
                   </div>
                 </div>
 
                 <div className="sm:col-span-6">
-                  <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
+                  <label htmlFor="location" className="block text-sm font-medium text-gray-300">Location</label>
                   <div className="mt-1 relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <MapPin className="h-5 w-5 text-gray-400" />
                     </div>
-                    <input type="text" name="location" id="location" value={storeForm.location || ''} onChange={e => setStoreForm({...storeForm, location: e.target.value})} placeholder="e.g., 123 Main St, City, Country" className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md" />
+                    <input type="text" name="location" id="location" value={storeForm.location || ''} onChange={e => setStoreForm({...storeForm, location: e.target.value})} placeholder="e.g., 123 Main St, City, Country" className="focus:ring-brand-sky focus:border-brand-sky block w-full pl-10 sm:text-sm bg-white/5 border-white/10 text-white placeholder-gray-500 rounded-md" />
                   </div>
                 </div>
 
                 <div className="sm:col-span-6">
-                  <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+                  <label htmlFor="description" className="block text-sm font-medium text-gray-300">Description</label>
                   <div className="mt-1">
-                    <textarea id="description" name="description" rows={3} required value={storeForm.description || ''} onChange={e => setStoreForm({...storeForm, description: e.target.value})} className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md" />
+                    <textarea id="description" name="description" rows={3} required value={storeForm.description || ''} onChange={e => setStoreForm({...storeForm, description: e.target.value})} className="shadow-sm focus:ring-brand-sky focus:border-brand-sky block w-full sm:text-sm bg-white/5 border-white/10 text-white rounded-md" />
                   </div>
                 </div>
 
                 <div className="sm:col-span-6">
-                  <label className="block text-sm font-medium text-gray-700">Store Logo</label>
+                  <label className="block text-sm font-medium text-gray-300">Store Logo</label>
                   <div className="mt-1 flex items-center space-x-4">
                     {storeForm.logoUrl ? (
-                      <img src={storeForm.logoUrl} alt="Store Logo" className="h-16 w-16 rounded-full object-cover border border-gray-200" />
+                      <img src={storeForm.logoUrl} alt="Store Logo" className="h-16 w-16 rounded-full object-cover border border-white/10" />
                     ) : (
-                      <div className="h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center border border-gray-200">
+                      <div className="h-16 w-16 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
                         <StoreIcon className="h-8 w-8 text-gray-400" />
                       </div>
                     )}
-                    <button type="button" onClick={() => logoInputRef.current?.click()} className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button type="button" onClick={() => logoInputRef.current?.click()} className="inline-flex items-center px-3 py-2 border border-white/10 shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-white/5 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-sky transition-colors">
                       <ImageIcon className="h-4 w-4 mr-2" /> Upload Logo
                     </button>
                     <input type="file" ref={logoInputRef} onChange={(e) => handleImageUpload(e, 'logoUrl')} accept="image/*" className="hidden" />
@@ -958,16 +958,16 @@ export const VendorDashboard = () => {
                 </div>
 
                 <div className="sm:col-span-6">
-                  <label className="block text-sm font-medium text-gray-700">Store Banner</label>
+                  <label className="block text-sm font-medium text-gray-300">Store Banner</label>
                   <div className="mt-1 space-y-4">
                     {storeForm.bannerUrl ? (
-                      <img src={storeForm.bannerUrl} alt="Store Banner" className="h-32 w-full object-cover rounded-md border border-gray-200" />
+                      <img src={storeForm.bannerUrl} alt="Store Banner" className="h-32 w-full object-cover rounded-md border border-white/10" />
                     ) : (
-                      <div className="h-32 w-full rounded-md bg-gray-100 flex items-center justify-center border border-gray-200">
+                      <div className="h-32 w-full rounded-md bg-white/5 flex items-center justify-center border border-white/10">
                         <span className="text-gray-400">No banner uploaded</span>
                       </div>
                     )}
-                    <button type="button" onClick={() => bannerInputRef.current?.click()} className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button type="button" onClick={() => bannerInputRef.current?.click()} className="inline-flex items-center px-3 py-2 border border-white/10 shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-white/5 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-sky transition-colors">
                       <ImageIcon className="h-4 w-4 mr-2" /> Upload Banner
                     </button>
                     <input type="file" ref={bannerInputRef} onChange={(e) => handleImageUpload(e, 'bannerUrl')} accept="image/*" className="hidden" />
@@ -977,7 +977,7 @@ export const VendorDashboard = () => {
               
               <div className="pt-5">
                 <div className="flex justify-end">
-                  <button type="submit" disabled={isUpdatingStore} className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50">
+                  <button type="submit" disabled={isUpdatingStore} className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-[0_0_15px_rgba(168,85,247,0.3)] text-sm font-medium rounded-md text-white bg-gradient-to-r from-brand-sky to-brand-purple hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-sky disabled:opacity-50 transition-all">
                     {isUpdatingStore ? 'Saving...' : 'Save Settings'}
                   </button>
                 </div>

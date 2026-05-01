@@ -98,12 +98,12 @@ export const Navbar = () => {
   }, [userProfile]);
 
   return (
-    <nav className="bg-white shadow-sm sticky top-0 z-50">
+    <nav className="glass-panel sticky top-0 z-50 border-b border-white/10">
       {loginError && (
-        <div className="bg-red-50 border-b border-red-200 px-4 py-2">
+        <div className="bg-red-900/50 border-b border-red-500/50 px-4 py-2">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <p className="text-sm text-red-600 font-medium">{loginError}</p>
-            <button onClick={clearError} className="text-red-400 hover:text-red-500">
+            <p className="text-sm text-red-200 font-medium">{loginError}</p>
+            <button onClick={clearError} className="text-red-400 hover:text-red-300">
               <span className="sr-only">Dismiss</span>
               <Menu className="h-4 w-4 rotate-45" />
             </button>
@@ -113,33 +113,33 @@ export const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center">
-              <Store className="h-8 w-8 text-indigo-600" />
-              <span className="ml-2 text-xl font-bold text-gray-900">Online Mall</span>
+            <Link to="/" className="flex-shrink-0 flex items-center group">
+              <Store className="h-8 w-8 text-sky-400 group-hover:text-purple-400 transition-colors" />
+              <span className="ml-2 text-xl font-bold text-gradient tracking-tight">Online Mall</span>
             </Link>
           </div>
           
           <div className="flex items-center space-x-4">
             {userProfile && (
               <>
-                <Link to="/wishlist" className="p-2 text-gray-600 hover:text-red-500 transition-colors" title="Wishlist">
+                <Link to="/wishlist" className="p-2 text-gray-300 hover:text-rose-400 transition-colors" title="Wishlist">
                   <Heart className="h-6 w-6" />
                 </Link>
-                <Link to="/following" className="p-2 text-gray-600 hover:text-indigo-600 transition-colors" title="Following">
+                <Link to="/following" className="p-2 text-gray-300 hover:text-sky-400 transition-colors" title="Following">
                   <Users className="h-6 w-6" />
                 </Link>
-                <Link to="/messages" className="relative p-2 text-gray-600 hover:text-indigo-600 transition-colors" title="Messages">
+                <Link to="/messages" className="relative p-2 text-gray-300 hover:text-purple-400 transition-colors" title="Messages">
                   <MessageSquare className="h-6 w-6" />
                   {unreadMessageCount > 0 && (
-                    <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full">
+                    <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-rose-500 rounded-full shadow-[0_0_10px_rgba(244,63,94,0.5)]">
                       {unreadMessageCount}
                     </span>
                   )}
                 </Link>
-                <Link to="/notifications" className="relative p-2 text-gray-600 hover:text-indigo-600 transition-colors" title="Notifications">
+                <Link to="/notifications" className="relative p-2 text-gray-300 hover:text-sky-400 transition-colors" title="Notifications">
                   <Bell className="h-6 w-6" />
                   {unreadCount > 0 && (
-                    <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full">
+                    <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-rose-500 rounded-full shadow-[0_0_10px_rgba(244,63,94,0.5)]">
                       {unreadCount}
                     </span>
                   )}
@@ -147,10 +147,10 @@ export const Navbar = () => {
               </>
             )}
 
-            <Link to="/cart" className="relative p-2 text-gray-600 hover:text-indigo-600 transition-colors" title="Cart">
+            <Link to="/cart" className="relative p-2 text-gray-300 hover:text-sky-400 transition-colors" title="Cart">
               <ShoppingCart className="h-6 w-6" />
               {cartItemsCount > 0 && (
-                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full">
+                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-rose-500 rounded-full shadow-[0_0_10px_rgba(244,63,94,0.5)]">
                   {cartItemsCount}
                 </span>
               )}
@@ -159,31 +159,18 @@ export const Navbar = () => {
             {userProfile ? (
               <div className="flex items-center space-x-4">
                 {userProfile.role === 'admin' && (
-                  <Link to="/admin" className="text-sm font-medium text-gray-700 hover:text-indigo-600">Admin</Link>
+                  <Link to="/admin" className="text-sm font-medium text-gray-300 hover:text-sky-400 transition-colors">Admin</Link>
                 )}
                 {userProfile.role === 'vendor' && (
-                  <Link to="/vendor" className="text-sm font-medium text-gray-700 hover:text-indigo-600">My Store</Link>
+                  <Link to="/vendor" className="text-sm font-medium text-gray-300 hover:text-sky-400 transition-colors">My Store</Link>
                 )}
-                {userProfile.email === 'dereklamson24@gmail.com' && (
-                  <div className="flex items-center space-x-2">
-                    {userProfile.role !== 'admin' && (
-                      <button onClick={() => switchRole('admin')} className="text-xs font-medium text-indigo-600 hover:text-indigo-500">Admin</button>
-                    )}
-                    {userProfile.role !== 'customer' && (
-                      <button onClick={() => switchRole('customer')} className="text-xs font-medium text-indigo-600 hover:text-indigo-500">Buyer</button>
-                    )}
-                    {userProfile.role !== 'vendor' && (
-                      <button onClick={() => switchRole('vendor')} className="text-xs font-medium text-indigo-600 hover:text-indigo-500">Seller</button>
-                    )}
-                  </div>
-                )}
-                <Link to="/profile" className="flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600">
+                <Link to="/profile" className="flex items-center text-sm font-medium text-gray-300 hover:text-sky-400 transition-colors">
                   <User className="h-5 w-5 mr-1" />
                   {userProfile.name}
                 </Link>
                 <button
                   onClick={logout}
-                  className="flex items-center text-sm font-medium text-gray-700 hover:text-red-600"
+                  className="flex items-center text-sm font-medium text-gray-300 hover:text-rose-500 transition-colors"
                 >
                   <LogOut className="h-5 w-5 mr-1" />
                   Logout
@@ -192,7 +179,7 @@ export const Navbar = () => {
             ) : (
               <button
                 onClick={loginWithGoogle}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-sky-500 to-purple-600 hover:from-sky-400 hover:to-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-slate-900 shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all"
               >
                 Sign In
               </button>

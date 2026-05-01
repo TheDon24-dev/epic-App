@@ -81,41 +81,42 @@ export default function StorePage() {
   };
 
   if (loading) {
-    return <div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div></div>;
+    return <div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-sky"></div></div>;
   }
 
   if (!store) {
-    return <div className="text-center py-12 text-gray-500">Store not found.</div>;
+    return <div className="text-center py-12 text-gray-400">Store not found.</div>;
   }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
+      <div className="glass-panel rounded-xl overflow-hidden mb-8">
         {store.bannerUrl && (
-          <div className="h-48 w-full">
+          <div className="h-48 w-full relative">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#030014]/80 z-10"></div>
             <img src={store.bannerUrl} alt={`${store.name} banner`} className="w-full h-full object-cover" />
           </div>
         )}
-        <div className="p-8 sm:flex sm:items-center sm:justify-between">
+        <div className="p-8 sm:flex sm:items-center sm:justify-between relative z-20">
           <div className="sm:flex sm:items-center">
             {store.logoUrl ? (
-              <img src={store.logoUrl} alt={`${store.name} logo`} className="h-24 w-24 rounded-full object-cover border-4 border-white shadow-sm -mt-16 sm:mt-0" />
+              <img src={store.logoUrl} alt={`${store.name} logo`} className="h-24 w-24 rounded-full object-cover border-4 border-[#030014] shadow-[0_0_15px_rgba(14,165,233,0.3)] -mt-16 sm:mt-0" />
             ) : (
-              <div className="h-24 w-24 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0 -mt-16 sm:mt-0 border-4 border-white shadow-sm">
-                <StoreIcon className="h-12 w-12 text-indigo-600" />
+              <div className="h-24 w-24 bg-white/5 rounded-full flex items-center justify-center flex-shrink-0 -mt-16 sm:mt-0 border-4 border-[#030014] shadow-[0_0_15px_rgba(14,165,233,0.3)]">
+                <StoreIcon className="h-12 w-12 text-brand-sky" />
               </div>
             )}
             <div className="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left">
-              <h1 className="text-3xl font-bold text-gray-900">{store.name}</h1>
-              <p className="text-sm font-medium text-gray-500 mt-1">{store.description}</p>
-              <div className="mt-2 flex flex-wrap items-center justify-center sm:justify-start text-sm text-gray-500 gap-4">
+              <h1 className="text-3xl font-bold text-white text-gradient">{store.name}</h1>
+              <p className="text-sm font-medium text-gray-400 mt-1">{store.description}</p>
+              <div className="mt-2 flex flex-wrap items-center justify-center sm:justify-start text-sm text-gray-400 gap-4">
                 <span className="flex items-center">
-                  <Users className="h-4 w-4 mr-1" />
+                  <Users className="h-4 w-4 mr-1 text-brand-sky" />
                   {followerCount} {followerCount === 1 ? 'Follower' : 'Followers'}
                 </span>
                 {store.location && (
                   <span className="flex items-center">
-                    <MapPin className="h-4 w-4 mr-1" />
+                    <MapPin className="h-4 w-4 mr-1 text-brand-purple" />
                     {store.location}
                   </span>
                 )}
@@ -129,27 +130,27 @@ export default function StorePage() {
                 navigator.clipboard.writeText(url);
                 alert('Store link copied to clipboard!');
               }}
-              className="px-6 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 font-medium flex items-center justify-center"
+              className="px-6 py-2 bg-white/5 border border-white/10 text-white rounded-md hover:bg-white/10 font-medium flex items-center justify-center transition-colors"
             >
-              <Share2 className="h-4 w-4 mr-2" /> Share
+              <Share2 className="h-4 w-4 mr-2 text-brand-sky" /> Share
             </button>
             {currentUser && currentUser.uid !== store.vendorId && (
               <>
                 <button
                   onClick={toggleFollow}
-                  className={`px-6 py-2 rounded-md font-medium transition-colors ${
+                  className={`px-6 py-2 rounded-md font-medium transition-all shadow-[0_0_10px_rgba(168,85,247,0.3)] ${
                     isFollowing 
-                      ? 'bg-gray-100 text-gray-800 hover:bg-gray-200' 
-                      : 'bg-indigo-600 text-white hover:bg-indigo-700'
+                      ? 'bg-white/10 text-white hover:bg-white/20 border border-white/20' 
+                      : 'bg-gradient-to-r from-brand-sky to-brand-purple text-white hover:opacity-90'
                   }`}
                 >
                   {isFollowing ? 'Following' : 'Follow Store'}
                 </button>
                 <Link
                   to={`/chat/${store.id}`}
-                  className="px-6 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 font-medium flex items-center justify-center"
+                  className="px-6 py-2 bg-white/5 border border-white/10 text-white rounded-md hover:bg-white/10 font-medium flex items-center justify-center transition-colors"
                 >
-                  <MessageCircle className="h-4 w-4 mr-2" /> Message
+                  <MessageCircle className="h-4 w-4 mr-2 text-brand-purple" /> Message
                 </Link>
               </>
             )}
@@ -157,37 +158,38 @@ export default function StorePage() {
         </div>
       </div>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Products</h2>
+      <h2 className="text-2xl font-bold text-white mb-6 text-gradient">Products</h2>
       {products.length === 0 ? (
-        <div className="text-center py-12 bg-white rounded-lg shadow-sm border border-gray-100">
-          <p className="text-gray-500">This store has no products yet.</p>
+        <div className="text-center py-12 glass-panel rounded-lg">
+          <p className="text-gray-400">This store has no products yet.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map((product) => (
-            <div key={product.id} className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition-shadow duration-200">
+            <div key={product.id} className="glass-card rounded-xl overflow-hidden hover:shadow-[0_0_15px_rgba(14,165,233,0.2)] transition-all duration-300 group">
               <Link to={`/products/${product.id}`}>
-                <div className="h-48 w-full overflow-hidden bg-gray-200">
+                <div className="h-48 w-full overflow-hidden bg-[#030014] relative">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#030014] to-transparent opacity-50 z-10"></div>
                   <img
                     src={product.imageUrl || 'https://picsum.photos/seed/product/400/300'}
                     alt={product.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     referrerPolicy="no-referrer"
                   />
                 </div>
               </Link>
-              <div className="p-4">
+              <div className="p-4 relative z-20">
                 <Link to={`/products/${product.id}`}>
-                  <h3 className="text-lg font-semibold text-gray-900 truncate">{product.name}</h3>
+                  <h3 className="text-lg font-semibold text-white truncate group-hover:text-brand-sky transition-colors">{product.name}</h3>
                 </Link>
-                <p className="text-gray-500 text-sm mt-1 truncate">{product.description}</p>
+                <p className="text-gray-400 text-sm mt-1 truncate">{product.description}</p>
                 <div className="mt-4 flex items-center justify-between">
-                  <span className="text-xl font-bold text-gray-900">${product.price.toFixed(2)}</span>
+                  <span className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-brand-sky to-brand-purple">${product.price.toFixed(2)}</span>
                   <div className="flex items-center space-x-2">
                     {currentUser ? (
                       <Link
                         to={`/chat/${store.id}`}
-                        className="p-2 border border-gray-300 text-gray-600 rounded-full hover:bg-gray-50 transition-colors"
+                        className="p-2 border border-white/10 text-gray-300 rounded-full hover:bg-white/10 hover:text-brand-sky transition-colors"
                         title="Message Store"
                       >
                         <MessageCircle className="h-5 w-5" />
@@ -195,7 +197,7 @@ export default function StorePage() {
                     ) : (
                       <button
                         onClick={loginWithGoogle}
-                        className="p-2 border border-gray-300 text-gray-400 rounded-full hover:bg-gray-50 transition-colors"
+                        className="p-2 border border-white/10 text-gray-500 rounded-full hover:bg-white/5 transition-colors"
                         title="Sign in to message"
                       >
                         <MessageCircle className="h-5 w-5" />
@@ -204,7 +206,7 @@ export default function StorePage() {
                     <button
                       onClick={() => addToCart(product)}
                       disabled={product.inventory === 0}
-                      className="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 disabled:bg-gray-400 transition-colors"
+                      className="bg-gradient-to-r from-brand-sky to-brand-purple text-white p-2 rounded-full hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-[0_0_10px_rgba(14,165,233,0.3)]"
                       title="Add to Cart"
                     >
                       <ShoppingCart className="h-5 w-5" />

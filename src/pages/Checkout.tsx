@@ -147,69 +147,69 @@ export const Checkout = () => {
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-3xl font-extrabold text-gray-900 mb-8 text-center">Checkout</h1>
+      <h1 className="text-3xl font-extrabold text-gradient tracking-tight mb-8 text-center">Checkout</h1>
       
-      <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
+      <div className="glass-panel shadow overflow-hidden sm:rounded-2xl mb-8">
         <div className="px-4 py-5 sm:px-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">Order Summary</h3>
+          <h3 className="text-lg leading-6 font-medium text-gray-100">Order Summary</h3>
         </div>
-        <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
-          <dl className="sm:divide-y sm:divide-gray-200">
+        <div className="border-t border-white/10 px-4 py-5 sm:p-0">
+          <dl className="sm:divide-y sm:divide-white/10">
             {cart.map((item) => (
               <div key={item.id} className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">{item.name} (x{item.cartQuantity})</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 text-right">${(item.price * item.cartQuantity).toFixed(2)}</dd>
+                <dt className="text-sm font-medium text-gray-400">{item.name} (x{item.cartQuantity})</dt>
+                <dd className="mt-1 text-sm text-gray-200 sm:mt-0 sm:col-span-2 text-right">${(item.price * item.cartQuantity).toFixed(2)}</dd>
               </div>
             ))}
             
             {Object.values(appliedCoupons).map((coupon: Coupon) => (
-              <div key={coupon.id} className="py-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-green-50">
-                <dt className="text-sm font-medium text-green-800 flex items-center">
+              <div key={coupon.id} className="py-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-emerald-900/20">
+                <dt className="text-sm font-medium text-emerald-400 flex items-center">
                   <Tag className="h-4 w-4 mr-2" />
                   Discount ({coupon.code})
-                  <button onClick={() => removeCoupon(coupon.storeId)} className="ml-2 text-red-500 hover:text-red-700">
+                  <button onClick={() => removeCoupon(coupon.storeId)} className="ml-2 text-rose-400 hover:text-rose-300 transition-colors">
                     <X className="h-4 w-4" />
                   </button>
                 </dt>
-                <dd className="mt-1 text-sm font-medium text-green-800 sm:mt-0 sm:col-span-2 text-right">
+                <dd className="mt-1 text-sm font-medium text-emerald-400 sm:mt-0 sm:col-span-2 text-right">
                   -${getDiscountForStore(coupon.storeId).toFixed(2)}
                 </dd>
               </div>
             ))}
 
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-50">
-              <dt className="text-sm font-bold text-gray-900">Total</dt>
-              <dd className="mt-1 text-sm font-bold text-gray-900 sm:mt-0 sm:col-span-2 text-right">${finalTotal.toFixed(2)}</dd>
+            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-slate-900/50">
+              <dt className="text-sm font-bold text-gray-100">Total</dt>
+              <dd className="mt-1 text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-purple-400 sm:mt-0 sm:col-span-2 text-right">${finalTotal.toFixed(2)}</dd>
             </div>
           </dl>
         </div>
       </div>
 
-      <div className="bg-white shadow sm:rounded-lg mb-8 p-6">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Have a coupon?</h3>
+      <div className="glass-panel shadow sm:rounded-2xl mb-8 p-6">
+        <h3 className="text-lg font-medium text-gray-100 mb-4">Have a coupon?</h3>
         <div className="flex space-x-4">
           <input
             type="text"
             value={couponCode}
             onChange={(e) => setCouponCode(e.target.value)}
             placeholder="Enter code"
-            className="flex-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm uppercase"
+            className="flex-1 block w-full border border-white/20 rounded-lg shadow-sm py-2 px-3 bg-slate-900/50 text-gray-200 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 sm:text-sm uppercase backdrop-blur-md"
           />
           <button
             onClick={handleApplyCoupon}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-[0_0_15px_rgba(168,85,247,0.3)] text-white bg-gradient-to-r from-purple-600 to-rose-600 hover:from-purple-500 hover:to-rose-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-purple-500 transition-all"
           >
             Apply
           </button>
         </div>
-        {couponError && <p className="mt-2 text-sm text-red-600">{couponError}</p>}
+        {couponError && <p className="mt-2 text-sm text-rose-400">{couponError}</p>}
       </div>
 
       <div className="flex justify-end mt-8">
         <button
           onClick={handleCheckout}
           disabled={loading}
-          className="w-full max-w-md inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+          className="w-full max-w-md inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-[0_0_15px_rgba(168,85,247,0.3)] text-white bg-gradient-to-r from-sky-500 to-purple-600 hover:from-sky-400 hover:to-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-purple-500 disabled:opacity-50 transition-all"
         >
           {loading ? 'Processing...' : 'Place Order'}
         </button>

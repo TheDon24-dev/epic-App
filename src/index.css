@@ -1,1 +1,50 @@
 @import "tailwindcss";
+
+@theme {
+  --color-brand-sky: #38bdf8;
+  --color-brand-purple: #a855f7;
+  --color-brand-red: #f43f5e;
+}
+
+body {
+  background-color: #030014;
+  color: #f8fafc;
+}
+
+.cinematic-bg {
+  background: 
+    radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.12), transparent 40%),
+    radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.12), transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(244, 63, 94, 0.12), transparent 40%);
+  background-color: #030014;
+  background-attachment: fixed;
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #38bdf8, #a855f7, #f43f5e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-panel {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.glass-card {
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
+}

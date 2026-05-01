@@ -144,11 +144,11 @@ export const ProductDetails = () => {
   };
 
   if (loading) {
-    return <div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div></div>;
+    return <div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-400"></div></div>;
   }
 
   if (!product) {
-    return <div className="text-center py-12 text-gray-500">Product not found.</div>;
+    return <div className="text-center py-12 text-gray-400">Product not found.</div>;
   }
 
   const isSaved = wishlist?.productIds.includes(product.id!) || false;
@@ -158,58 +158,58 @@ export const ProductDetails = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="glass-panel rounded-2xl overflow-hidden">
         <div className="md:flex">
           <div className="md:flex-shrink-0 md:w-1/2">
             {product.imageUrl ? (
               <img className="h-96 w-full object-cover md:h-full" src={product.imageUrl} alt={product.name} referrerPolicy="no-referrer" />
             ) : (
-              <div className="h-96 w-full bg-gray-200 flex items-center justify-center text-gray-400">No Image Available</div>
+              <div className="h-96 w-full bg-slate-800/50 flex items-center justify-center text-gray-500">No Image Available</div>
             )}
           </div>
           <div className="p-8 md:w-1/2 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
-                <span className="text-2xl font-extrabold text-indigo-600">${product.price.toFixed(2)}</span>
+                <h1 className="text-3xl font-bold text-gray-100">{product.name}</h1>
+                <span className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-purple-400">${product.price.toFixed(2)}</span>
               </div>
               
               {averageRating && (
                 <div className="mt-2 flex items-center">
-                  <Star className="h-5 w-5 text-yellow-400 fill-current" />
-                  <span className="ml-1 text-sm font-medium text-gray-700">{averageRating}</span>
+                  <Star className="h-5 w-5 text-yellow-400 fill-current drop-shadow-[0_0_8px_rgba(250,204,21,0.5)]" />
+                  <span className="ml-1 text-sm font-medium text-gray-300">{averageRating}</span>
                   <span className="ml-1 text-sm text-gray-500">({reviews.length} {reviews.length === 1 ? 'review' : 'reviews'})</span>
                 </div>
               )}
 
-              <div className="mt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex flex-wrap items-center gap-2">
                   {store?.logoUrl ? (
-                    <img src={store.logoUrl} alt={store.name} className="w-6 h-6 rounded-full object-cover border border-gray-200" />
+                    <img src={store.logoUrl} alt={store.name} className="w-6 h-6 rounded-full object-cover border border-white/20" />
                   ) : (
-                    <div className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center border border-gray-200">
-                      <span className="text-xs text-indigo-600 font-bold">{store?.name?.charAt(0) || '?'}</span>
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-sky-500/20 to-purple-500/20 flex items-center justify-center border border-white/10">
+                      <span className="text-xs text-sky-400 font-bold">{store?.name?.charAt(0) || '?'}</span>
                     </div>
                   )}
-                  <Link to={`/stores/${store?.id}`} className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                  <Link to={`/stores/${store?.id}`} className="text-sm font-medium text-sky-400 hover:text-sky-300 transition-colors">
                     {store?.name || 'Unknown Store'}
                   </Link>
                   {store?.location && (
                     <>
-                      <span className="text-gray-300">&bull;</span>
-                      <div className="flex items-center text-sm text-gray-500">
-                        <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
+                      <span className="text-gray-600">&bull;</span>
+                      <div className="flex items-center text-sm text-gray-400">
+                        <MapPin className="h-3 w-3 mr-1 flex-shrink-0 text-purple-400" />
                         {store.location}
                       </div>
                     </>
                   )}
-                  <span className="text-gray-300">&bull;</span>
-                  <span className="text-sm text-gray-500">{product.category}</span>
+                  <span className="text-gray-600">&bull;</span>
+                  <span className="text-sm text-gray-400 px-2 py-0.5 rounded-full bg-white/5 border border-white/10">{product.category}</span>
                 </div>
                 {currentUser && (
                   <button 
                     onClick={toggleWishlist}
-                    className={`p-2 rounded-full flex items-center transition-colors ${isSaved ? 'text-red-500 bg-red-50 hover:bg-red-100' : 'text-gray-400 hover:text-red-500 hover:bg-gray-50'}`}
+                    className={`p-2 rounded-full flex items-center transition-colors ${isSaved ? 'text-rose-500 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20' : 'text-gray-400 hover:text-rose-400 hover:bg-white/5 border border-transparent'}`}
                     title={isSaved ? "Remove from Wishlist" : "Add to Wishlist"}
                   >
                     <Heart className="h-6 w-6" fill={isSaved ? "currentColor" : "none"} />
@@ -217,27 +217,27 @@ export const ProductDetails = () => {
                 )}
               </div>
 
-              <p className="mt-4 text-gray-600 leading-relaxed">{product.description}</p>
+              <p className="mt-6 text-gray-300 leading-relaxed">{product.description}</p>
               
               <div className="mt-6">
-                <h3 className="text-sm font-medium text-gray-900">Inventory</h3>
-                <p className="mt-1 text-sm text-gray-500">{product.inventory > 0 ? `${product.inventory} in stock` : 'Out of stock'}</p>
+                <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider">Inventory</h3>
+                <p className="mt-1 text-sm font-medium text-gray-200">{product.inventory > 0 ? `${product.inventory} in stock` : 'Out of stock'}</p>
               </div>
             </div>
 
             <div className="mt-8 space-y-4">
               <div className="flex items-center space-x-4">
-                <div className="flex items-center border border-gray-300 rounded-md">
+                <div className="flex items-center border border-white/20 rounded-lg bg-slate-900/50">
                   <button 
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-l-md"
+                    className="px-4 py-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-l-lg transition-colors"
                   >
                     -
                   </button>
-                  <span className="px-4 py-2 text-gray-900 font-medium">{quantity}</span>
+                  <span className="px-4 py-2 text-gray-100 font-medium min-w-[3rem] text-center">{quantity}</span>
                   <button 
                     onClick={() => setQuantity(Math.min(product.inventory, quantity + 1))}
-                    className="px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-r-md"
+                    className="px-4 py-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-r-lg transition-colors"
                   >
                     +
                   </button>
@@ -246,8 +246,8 @@ export const ProductDetails = () => {
                 <button
                   onClick={() => addToCart(product, quantity)}
                   disabled={product.inventory === 0}
-                  className={`flex-1 flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white ${
-                    product.inventory > 0 ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-gray-400 cursor-not-allowed'
+                  className={`flex-1 flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white transition-all ${
+                    product.inventory > 0 ? 'bg-gradient-to-r from-sky-500 to-purple-600 hover:from-sky-400 hover:to-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.3)]' : 'bg-slate-800 text-gray-500 cursor-not-allowed'
                   }`}
                 >
                   <ShoppingCart className="h-5 w-5 mr-2" />
@@ -258,15 +258,15 @@ export const ProductDetails = () => {
               {store && currentUser && currentUser.uid !== store.vendorId ? (
                 <Link
                   to={`/chat/${store.id}`}
-                  className="w-full flex justify-center items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+                  className="w-full flex justify-center items-center px-6 py-3 border border-white/20 shadow-sm text-base font-medium rounded-lg text-gray-300 bg-white/5 hover:bg-white/10 transition-colors"
                 >
-                  <MessageCircle className="h-5 w-5 mr-2 text-gray-400" />
+                  <MessageCircle className="h-5 w-5 mr-2 text-sky-400" />
                   Message Store
                 </Link>
               ) : !currentUser ? (
                 <button
                   onClick={loginWithGoogle}
-                  className="w-full flex justify-center items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-400 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors"
+                  className="w-full flex justify-center items-center px-6 py-3 border border-white/10 shadow-sm text-base font-medium rounded-lg text-gray-400 bg-white/5 cursor-pointer hover:bg-white/10 transition-colors"
                 >
                   <MessageCircle className="h-5 w-5 mr-2" />
                   Sign in to Message Store
@@ -278,25 +278,25 @@ export const ProductDetails = () => {
       </div>
 
       <div className="mt-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Customer Reviews</h2>
+        <h2 className="text-2xl font-bold text-gray-100 mb-6">Customer Reviews</h2>
         
         {hasPurchased && !hasReviewed && (
-          <div className="bg-white p-6 rounded-lg shadow-sm mb-8 border border-gray-100">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Leave a Review</h3>
+          <div className="glass-panel p-6 rounded-2xl mb-8">
+            <h3 className="text-lg font-medium text-gray-100 mb-4">Leave a Review</h3>
             <form onSubmit={submitReview}>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+                <label className="block text-sm font-medium text-gray-400 mb-2">Rating</label>
                 <div className="flex items-center space-x-1">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}
                       type="button"
                       onClick={() => setNewReview({ ...newReview, rating: star })}
-                      className="focus:outline-none"
+                      className="focus:outline-none transition-transform hover:scale-110"
                     >
                       <Star
-                        className={`h-6 w-6 ${
-                          star <= newReview.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                        className={`h-8 w-8 ${
+                          star <= newReview.rating ? 'text-yellow-400 fill-current drop-shadow-[0_0_8px_rgba(250,204,21,0.5)]' : 'text-gray-600'
                         }`}
                       />
                     </button>
@@ -304,7 +304,7 @@ export const ProductDetails = () => {
                 </div>
               </div>
               <div className="mb-4">
-                <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="comment" className="block text-sm font-medium text-gray-400 mb-2">
                   Comment
                 </label>
                 <textarea
@@ -313,14 +313,14 @@ export const ProductDetails = () => {
                   required
                   value={newReview.comment}
                   onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
-                  className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border"
+                  className="block w-full sm:text-sm border-white/20 rounded-lg p-3 bg-slate-900/50 text-gray-200 placeholder-gray-500 focus:ring-sky-500 focus:border-sky-500 backdrop-blur-md"
                   placeholder="What did you think about this product?"
                 />
               </div>
               <button
                 type="submit"
                 disabled={isSubmittingReview}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                className="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-lg shadow-[0_0_15px_rgba(168,85,247,0.3)] text-white bg-gradient-to-r from-sky-500 to-purple-600 hover:from-sky-400 hover:to-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50 transition-all"
               >
                 {isSubmittingReview ? 'Submitting...' : 'Submit Review'}
               </button>
@@ -329,18 +329,18 @@ export const ProductDetails = () => {
         )}
 
         {reviews.length === 0 ? (
-          <p className="text-gray-500">No reviews yet. Be the first to review this product!</p>
+          <p className="text-gray-500 italic">No reviews yet. Be the first to review this product!</p>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-4">
             {reviews.map(review => (
-              <div key={review.id} className="bg-white p-6 rounded-lg shadow-sm">
-                <div className="flex items-center mb-2">
+              <div key={review.id} className="glass-card p-6 rounded-xl">
+                <div className="flex items-center mb-3">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className={`h-5 w-5 ${i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} />
+                    <Star key={i} className={`h-5 w-5 ${i < review.rating ? 'text-yellow-400 fill-current drop-shadow-[0_0_5px_rgba(250,204,21,0.4)]' : 'text-gray-600'}`} />
                   ))}
                 </div>
-                <p className="text-gray-600">{review.comment}</p>
-                <p className="text-sm text-gray-400 mt-2">
+                <p className="text-gray-300 leading-relaxed">{review.comment}</p>
+                <p className="text-sm text-gray-500 mt-3 font-medium">
                   {review.createdAt?.toDate ? review.createdAt.toDate().toLocaleDateString() : new Date(review.createdAt).toLocaleDateString()}
                 </p>
               </div>

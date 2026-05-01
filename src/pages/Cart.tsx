@@ -12,12 +12,12 @@ export const Cart = () => {
   if (cart.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-        <ShoppingBag className="mx-auto h-24 w-24 text-gray-300 mb-6" />
-        <h2 className="text-3xl font-extrabold text-gray-900 mb-4">Your cart is empty</h2>
-        <p className="text-lg text-gray-500 mb-8">Looks like you haven't added anything to your cart yet.</p>
+        <ShoppingBag className="mx-auto h-24 w-24 text-gray-600 mb-6 drop-shadow-[0_0_15px_rgba(168,85,247,0.3)]" />
+        <h2 className="text-3xl font-extrabold text-gray-100 mb-4">Your cart is empty</h2>
+        <p className="text-lg text-gray-400 mb-8">Looks like you haven't added anything to your cart yet.</p>
         <Link
           to="/"
-          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-[0_0_15px_rgba(168,85,247,0.3)] text-white bg-gradient-to-r from-sky-500 to-purple-600 hover:from-sky-400 hover:to-purple-500 transition-all"
         >
           Start Shopping
         </Link>
@@ -27,11 +27,11 @@ export const Cart = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-extrabold text-gray-900 mb-8">Shopping Cart</h1>
+      <h1 className="text-3xl font-extrabold text-gradient tracking-tight mb-8">Shopping Cart</h1>
       
       <div className="lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start">
         <div className="lg:col-span-8">
-          <ul className="border-t border-b border-gray-200 divide-y divide-gray-200">
+          <ul className="border-t border-b border-white/10 divide-y divide-white/10">
             {cart.map((item) => (
               <li key={item.id} className="flex py-6 sm:py-10">
                 <div className="flex-shrink-0">
@@ -39,11 +39,11 @@ export const Cart = () => {
                     <img
                       src={item.imageUrl}
                       alt={item.name}
-                      className="w-24 h-24 rounded-md object-center object-cover sm:w-32 sm:h-32"
+                      className="w-24 h-24 rounded-lg object-center object-cover sm:w-32 sm:h-32 border border-white/10"
                       referrerPolicy="no-referrer"
                     />
                   ) : (
-                    <div className="w-24 h-24 sm:w-32 sm:h-32 bg-gray-200 rounded-md flex items-center justify-center text-gray-400">
+                    <div className="w-24 h-24 sm:w-32 sm:h-32 bg-slate-800/50 rounded-lg flex items-center justify-center text-gray-500 border border-white/10">
                       No Image
                     </div>
                   )}
@@ -54,15 +54,15 @@ export const Cart = () => {
                     <div>
                       <div className="flex justify-between">
                         <h3 className="text-sm">
-                          <Link to={`/products/${item.id}`} className="font-medium text-gray-700 hover:text-gray-800">
+                          <Link to={`/products/${item.id}`} className="font-medium text-gray-200 hover:text-sky-400 transition-colors">
                             {item.name}
                           </Link>
                         </h3>
                       </div>
                       <div className="mt-1 flex text-sm">
-                        <p className="text-gray-500">{item.category}</p>
+                        <p className="text-gray-400">{item.category}</p>
                       </div>
-                      <p className="mt-1 text-sm font-medium text-gray-900">${item.price.toFixed(2)}</p>
+                      <p className="mt-1 text-sm font-medium text-gray-100">${item.price.toFixed(2)}</p>
                     </div>
 
                     <div className="mt-4 sm:mt-0 sm:pr-9">
@@ -72,12 +72,12 @@ export const Cart = () => {
                       <select
                         id={`quantity-${item.id}`}
                         name={`quantity-${item.id}`}
-                        className="max-w-full rounded-md border border-gray-300 py-1.5 text-base leading-5 font-medium text-gray-700 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="max-w-full rounded-md border border-white/20 py-1.5 text-base leading-5 font-medium text-gray-200 bg-slate-900/50 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 sm:text-sm backdrop-blur-md"
                         value={item.cartQuantity}
                         onChange={(e) => updateQuantity(item.id!, Number(e.target.value))}
                       >
                         {[...Array(Math.min(10, item.inventory))].map((_, i) => (
-                          <option key={i + 1} value={i + 1}>
+                          <option key={i + 1} value={i + 1} className="bg-slate-900 text-gray-200">
                             {i + 1}
                           </option>
                         ))}
@@ -86,7 +86,7 @@ export const Cart = () => {
                       <div className="absolute top-0 right-0">
                         <button
                           type="button"
-                          className="-m-2 p-2 inline-flex text-gray-400 hover:text-gray-500"
+                          className="-m-2 p-2 inline-flex text-gray-500 hover:text-rose-400 transition-colors"
                           onClick={() => removeFromCart(item.id!)}
                         >
                           <span className="sr-only">Remove</span>
@@ -96,11 +96,11 @@ export const Cart = () => {
                     </div>
                   </div>
 
-                  <p className="mt-4 flex text-sm text-gray-700 space-x-2">
+                  <p className="mt-4 flex text-sm text-gray-400 space-x-2">
                     {item.inventory > 0 ? (
-                      <span className="text-green-500">In stock</span>
+                      <span className="text-sky-400">In stock</span>
                     ) : (
-                      <span className="text-red-500">Out of stock</span>
+                      <span className="text-rose-500">Out of stock</span>
                     )}
                   </p>
                 </div>
@@ -109,31 +109,31 @@ export const Cart = () => {
           </ul>
         </div>
 
-        <section aria-labelledby="summary-heading" className="mt-16 bg-gray-50 rounded-lg px-4 py-6 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-4">
-          <h2 id="summary-heading" className="text-lg font-medium text-gray-900">
+        <section aria-labelledby="summary-heading" className="mt-16 glass-panel rounded-2xl px-4 py-6 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-4">
+          <h2 id="summary-heading" className="text-lg font-medium text-gray-100">
             Order summary
           </h2>
 
           <dl className="mt-6 space-y-4">
             <div className="flex items-center justify-between">
-              <dt className="text-sm text-gray-600">Subtotal</dt>
-              <dd className="text-sm font-medium text-gray-900">${total.toFixed(2)}</dd>
+              <dt className="text-sm text-gray-400">Subtotal</dt>
+              <dd className="text-sm font-medium text-gray-200">${total.toFixed(2)}</dd>
             </div>
-            <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
-              <dt className="flex items-center text-sm text-gray-600">
+            <div className="border-t border-white/10 pt-4 flex items-center justify-between">
+              <dt className="flex items-center text-sm text-gray-400">
                 <span>Shipping estimate</span>
               </dt>
-              <dd className="text-sm font-medium text-gray-900">$5.00</dd>
+              <dd className="text-sm font-medium text-gray-200">$5.00</dd>
             </div>
-            <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
-              <dt className="flex text-sm text-gray-600">
+            <div className="border-t border-white/10 pt-4 flex items-center justify-between">
+              <dt className="flex text-sm text-gray-400">
                 <span>Tax estimate</span>
               </dt>
-              <dd className="text-sm font-medium text-gray-900">${(total * 0.08).toFixed(2)}</dd>
+              <dd className="text-sm font-medium text-gray-200">${(total * 0.08).toFixed(2)}</dd>
             </div>
-            <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
-              <dt className="text-base font-medium text-gray-900">Order total</dt>
-              <dd className="text-base font-medium text-gray-900">${(total + 5 + total * 0.08).toFixed(2)}</dd>
+            <div className="border-t border-white/10 pt-4 flex items-center justify-between">
+              <dt className="text-base font-medium text-gray-100">Order total</dt>
+              <dd className="text-base font-medium text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-purple-400">${(total + 5 + total * 0.08).toFixed(2)}</dd>
             </div>
           </dl>
 
@@ -146,7 +146,7 @@ export const Cart = () => {
                 }
                 navigate('/checkout');
               }}
-              className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+              className="w-full bg-gradient-to-r from-sky-500 to-purple-600 hover:from-sky-400 hover:to-purple-500 border border-transparent rounded-lg shadow-[0_0_15px_rgba(168,85,247,0.3)] py-3 px-4 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-purple-500 transition-all"
             >
               Checkout
             </button>
